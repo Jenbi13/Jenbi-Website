@@ -79,17 +79,25 @@
       <h2>Über mich</h2>
       <img src="https://yt3.googleusercontent.com/5j4zseBO0OrjSe51wzVmqQ8jfrpsTFhk_GSuij_Ng9vusIpFr6l7Vi9S_8Klo-yCVRyEOCBKDg=s160-c-k-c0x00ffffff-no-rj" alt="Jenbi">
       <p>Hallo! Ich bin Jenbi – willkommen auf meiner Website! Hier findet ihr das meiste über mich, also Daten, Links, interresante Fakten, Events, Mini-Games und vieles mehr! 😎</p>
-	<br/>
-	Ich komme aus dem guten Niederösterreich und mache, wenn ich überhaupt welche mache, Videos über Roblox, Minecraft und Nintendo.
-	<br/>
-	Meine Kollegen sind Fabian, mein Freund real life, und Joel, den ich in einem BrawlStars-Discord kennengelernt hab.
+  	<br/>
+  	Ich komme aus dem guten Niederösterreich und mache, wenn ich überhaupt welche mache, Videos über Roblox, Minecraft und Nintendo.
+  	<br/>
+  	Meine Kollegen sind Fabian, mein Freund real life, und Joel, den ich in einem BrawlStars-Discord kennengelernt hab.
     </div>
 
     <!-- Mini-Games -->
     <div id="games" class="tab-content">
       <h2>Mini-Games</h2>
-      <p>Bald kommen hier her Spiele!</p>
-   
+
+      <!-- Spielbereich -->
+      <div id="ssp-game">
+        <h3>🎮 Schere-Stein-Papier</h3>
+        <p>Wähle eine Option:</p>
+        <button onclick="playSSP('Schere')">✌️ Schere</button>
+        <button onclick="playSSP('Stein')">🪨 Stein</button>
+        <button onclick="playSSP('Papier')">📄 Papier</button>
+        <p id="ssp-result"></p>
+      </div>
     </div>
 
     <!-- Links -->
@@ -104,7 +112,7 @@
 
   </div>
 
-  <!-- ⚙️ Tab-Wechsler -->
+  <!-- ⚙️ Tab-Wechsler + Game Script -->
   <script>
     function openTab(tabId) {
       const contents = document.querySelectorAll('.tab-content');
@@ -116,7 +124,28 @@
       document.getElementById(tabId).classList.add('active');
       event.target.classList.add('active');
     }
+
+    function playSSP(playerChoice) {
+      const choices = ['Schere', 'Stein', 'Papier'];
+      const botChoice = choices[Math.floor(Math.random() * 3)];
+      let result = '';
+
+      if (playerChoice === botChoice) {
+        result = `${playerChoice} vs ${botChoice} ... Unentschieden!`;
+      } else if (
+        (playerChoice === 'Schere' && botChoice === 'Papier') ||
+        (playerChoice === 'Stein' && botChoice === 'Schere') ||
+        (playerChoice === 'Papier' && botChoice === 'Stein')
+      ) {
+        result = `${playerChoice} vs ${botChoice} ... DU HAST GEWONNEN!`;
+      } else {
+        result = `${playerChoice} vs ${botChoice} ... du hast verloren!`;
+      }
+
+      document.getElementById('ssp-result').innerText = result;
+    }
   </script>
 
 </body>
 </html>
+
