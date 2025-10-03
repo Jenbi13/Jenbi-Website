@@ -30,7 +30,6 @@
         --shadow: 0 12px 40px rgba(0,0,0,.45);
       }
     }
-    /* Light/Dark override via toggle */
     html[data-theme="light"] {
       --bg: #f6f7fb;
       --surface: #ffffff;
@@ -67,7 +66,6 @@
       padding: 0 16px 56px;
     }
 
-    /* ===== Header ===== */
     header {
       display: flex;
       align-items: center;
@@ -85,7 +83,6 @@
     .title { font-size: 1.6rem; font-weight: 800; letter-spacing: .2px; }
     .muted { color: var(--muted); font-size: .95rem; }
 
-    /* ===== Card ===== */
     .card {
       background: var(--surface);
       border-radius: var(--radius);
@@ -94,7 +91,6 @@
       border: 1px solid rgba(148,163,184,.15);
     }
 
-    /* ===== Tabs (ARIA) ===== */
     .tabs {
       display: grid;
       grid-template-rows: auto 1fr;
@@ -122,8 +118,6 @@
     .tabpanel { display: none; padding: 22px; }
     .tabpanel[aria-hidden="false"] { display: block; }
 
-    /* ===== Content bits ===== */
-    .flex { display: flex; gap: 18px; align-items: center; }
     .btn {
       appearance: none; border: 0; cursor: pointer; font-weight: 700;
       background: var(--primary); color: var(--primary-contrast);
@@ -144,6 +138,14 @@
     iframe { border: 0; width: 100%; max-width: 100%; aspect-ratio: 16/9; border-radius: 12px; }
 
     footer { margin-top: 24px; color: var(--muted); font-size: .9rem; text-align: center; }
+
+    /* === Animation === */
+    @keyframes flyIn {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
   </style>
 </head>
 <body>
@@ -160,25 +162,23 @@
     </header>
 
     <section class="card tabs" id="tabs">
-      <!-- Tab Buttons -->
       <div role="tablist" aria-label="Bereiche" class="tablist">
         <button class="tab" role="tab" id="tab-ueber" aria-controls="panel-ueber" aria-selected="true">🧍 Über mich</button>
         <button class="tab" role="tab" id="tab-games" aria-controls="panel-games" aria-selected="false">🎮 Mini-Games</button>
         <button class="tab" role="tab" id="tab-links" aria-controls="panel-links" aria-selected="false">🔗 Links</button>
       </div>
 
-      <!-- Panels -->
       <div id="panel-ueber" class="tabpanel" role="tabpanel" aria-labelledby="tab-ueber" aria-hidden="false">
         <h2>Über mich</h2>
-        <p>Servas! Ich bin <strong>Jenbi</strong> – willkommen auf meiner kleinen, aber feinen Seite. Hier find’sd Mini‑Games, Links und a bissl was über mich. 😎</p>
+        <p>Servas! Ich bin <strong>Jenbi</strong> – willkommen auf meiner kleinen, aber feinen Seite. Hier find’sd Mini-Games, Links und a bissl was über mich. 😎</p>
         <p>Ich komm’ aus dem schönen <strong>Niederösterreich</strong> und mach (wenn ich brav bin 😉) Videos zu <em>Roblox</em>, <em>Minecraft</em> und <em>Nintendo</em>.</p>
-        <p>Homies: <strong>Fabian</strong> (IRL) und <strong>Joel</strong> (kennengelernt im Brawl Stars‑Discord).</p>
+        <p>Homies: <strong>Fabian</strong> (IRL) und <strong>Joel</strong> (kennengelernt im Brawl Stars-Discord).</p>
       </div>
 
       <div id="panel-games" class="tabpanel" role="tabpanel" aria-labelledby="tab-games" aria-hidden="true">
-        <h2>Mini‑Games</h2>
+        <h2>Mini-Games</h2>
         <article class="game-area" aria-labelledby="ssp-title">
-          <h3 id="ssp-title">🎮 Schere‑Stein‑Papier</h3>
+          <h3 id="ssp-title">🎮 Schere-Stein-Papier</h3>
           <p class="muted">Wähle eine Option und schau, ob du den Bot outplayst. Best of luck, Legend! ✨</p>
           <div class="choices">
             <button class="btn" data-choice="Schere">✌️ Schere</button>
@@ -187,15 +187,17 @@
             <button class="btn" id="resetScore" title="Score zurücksetzen">🔁 Reset</button>
           </div>
           <p id="ssp-result" class="score">—</p>
-          <p class="muted" id="ssp-score" aria-live="polite">Score: 0 🏆 | Wins: 0 | Losses: 0 | Draws: 0</p>
+          <p class="muted" id="ssp-score" aria-live="polite">Score: 0 🏆 | Wins: 0 | Losses: 0 | Draws: 0</p>
         </article>
       </div>
 
       <div id="panel-links" class="tabpanel" role="tabpanel" aria-labelledby="tab-links" aria-hidden="true">
         <h2>Links</h2>
-        <p>Mein YouTube‑Kanal:</p>
+        <p>Mein YouTube-Kanal:</p>
         <p>
-          <a class="link" href="https://www.youtube.com/@jenbi13" target="_blank" rel="noopener noreferrer">➡️ Jenbi auf YouTube</a>
+          <a class="link flyin" href="https://www.youtube.com/@jenbi13" target="_blank" rel="noopener noreferrer">
+            ➡️ Jenbi auf YouTube
+          </a>
         </p>
         <p>Beliebtestes Video:</p>
         <iframe 
@@ -212,11 +214,10 @@
   </div>
 
   <script>
-    // ===== Utilities =====
     const $ = (sel, root=document) => root.querySelector(sel);
     const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
 
-    // ===== Theme Toggle (persists) =====
+    // Theme Toggle
     const themeToggle = $('#themeToggle');
     const prefKey = 'jenbi.theme';
     const savedTheme = localStorage.getItem(prefKey);
@@ -232,10 +233,8 @@
       localStorage.setItem(prefKey, next);
     });
 
-    // ===== Tabs with ARIA + Keyboard + URL hash =====
+    // Tabs
     const tabs = $$('.tab');
-    const panels = $$('.tabpanel');
-
     function activateTab(index, pushHash = true) {
       tabs.forEach((t, i) => {
         const selected = i === index;
@@ -250,8 +249,6 @@
       }
       tabs[index].focus({ preventScroll: true });
     }
-
-    // Click handling
     tabs.forEach((tab, i) => {
       tab.addEventListener('click', () => activateTab(i));
       tab.addEventListener('keydown', (e) => {
@@ -266,35 +263,28 @@
         if (key === 'End')  { e.preventDefault(); activateTab(tabs.length-1); }
       });
     });
-
-    // Load initial tab from hash or default (0)
     (function initFromHash(){
       const hash = location.hash.replace('#','');
       const idx = tabs.findIndex(t => t.id === 'tab-' + hash);
-      activateTab(idx >= 0 ? idx : 0, /*pushHash*/ false);
+      activateTab(idx >= 0 ? idx : 0, false);
     })();
 
-    // ===== SSP Game with persistent score =====
+    // SSP Game
     const sspKey = 'jenbi.ssp.score';
     const sspResult = $('#ssp-result');
     const sspScoreEl = $('#ssp-score');
-    const sspBtns = $$('.choices .btn');
-
     let score = { total: 0, win: 0, lose: 0, draw: 0 };
     try {
       const saved = JSON.parse(localStorage.getItem(sspKey));
       if (saved && typeof saved === 'object') score = saved;
     } catch {}
-
     const choices = ['Schere','Stein','Papier'];
     const beats = { Schere: 'Papier', Stein: 'Schere', Papier: 'Stein' };
-
     function updateScoreline() {
       sspScoreEl.textContent = `Score: ${score.total} 🏆 | Wins: ${score.win} | Losses: ${score.lose} | Draws: ${score.draw}`;
       localStorage.setItem(sspKey, JSON.stringify(score));
     }
     updateScoreline();
-
     function playSSP(choice) {
       const bot = choices[Math.floor(Math.random()*3)];
       let msg;
@@ -311,20 +301,41 @@
       sspResult.textContent = msg;
       updateScoreline();
     }
-
     $$('.choices [data-choice]').forEach(btn => {
       btn.addEventListener('click', () => playSSP(btn.dataset.choice));
     });
-
     $('#resetScore')?.addEventListener('click', () => {
       score = { total: 0, win: 0, lose: 0, draw: 0 };
       updateScoreline();
       sspResult.textContent = '—';
     });
 
-    // ===== Footer year =====
+    // Animation für Links
+    function animateFlyIn(el) {
+      const text = el.textContent;
+      el.textContent = '';
+      [...text].forEach((char, i) => {
+        const span = document.createElement('span');
+        span.textContent = char;
+        span.style.opacity = 0;
+        span.style.display = 'inline-block';
+        span.style.transform = 'translateX(-20px)';
+        span.style.animation = `flyIn 0.4s forwards ${i * 0.05}s`;
+        el.appendChild(span);
+      });
+    }
+    const tabLinksBtn = document.getElementById('tab-links');
+    tabLinksBtn.addEventListener('click', () => {
+      const linkEl = document.querySelector('.flyin');
+      if (linkEl) animateFlyIn(linkEl);
+    });
+    if (location.hash === '#links') {
+      const linkEl = document.querySelector('.flyin');
+      if (linkEl) animateFlyIn(linkEl);
+    }
+
+    // Footer year
     $('#year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
-
