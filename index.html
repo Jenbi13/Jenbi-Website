@@ -60,48 +60,19 @@
       color: var(--text);
       line-height: 1.6;
     }
-    .wrap {
-      max-width: 960px;
-      margin: 28px auto;
-      padding: 0 16px 56px;
-    }
+    .wrap { max-width: 960px; margin: 28px auto; padding: 0 16px 56px; }
 
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
     .brand { display: flex; align-items: center; gap: 12px; }
-    .brand img {
-      width: 56px; height: 56px; border-radius: 50%; object-fit: cover;
-      box-shadow: 0 6px 18px rgba(0,0,0,.15);
-    }
+    .brand img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; box-shadow: 0 6px 18px rgba(0,0,0,.15); }
     .title { font-size: 1.6rem; font-weight: 800; letter-spacing: .2px; }
     .muted { color: var(--muted); font-size: .95rem; }
 
-    .card {
-      background: var(--surface);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: clip;
-      border: 1px solid rgba(148,163,184,.15);
-    }
+    .card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); overflow: clip; border: 1px solid rgba(148,163,184,.15); }
 
     .tabs { display: grid; grid-template-rows: auto 1fr; min-height: 420px; }
-    .tablist {
-      display: flex; flex-wrap: wrap; gap: 8px;
-      background: linear-gradient(180deg, rgba(42,108,244,.12), transparent);
-      padding: 14px; border-bottom: 1px solid rgba(148,163,184,.20);
-    }
-    .tab {
-      appearance: none; border: 0; cursor: pointer;
-      background: var(--surface); color: var(--text);
-      padding: 10px 14px; border-radius: 10px; font-weight: 600;
-      transition: transform .15s ease, background .2s ease;
-      box-shadow: 0 2px 8px rgba(2, 8, 23, 0.05);
-    }
+    .tablist { display: flex; flex-wrap: wrap; gap: 8px; background: linear-gradient(180deg, rgba(42,108,244,.12), transparent); padding: 14px; border-bottom: 1px solid rgba(148,163,184,.20); }
+    .tab { appearance: none; border: 0; cursor: pointer; background: var(--surface); color: var(--text); padding: 10px 14px; border-radius: 10px; font-weight: 600; transition: transform .15s ease, background .2s ease; box-shadow: 0 2px 8px rgba(2, 8, 23, 0.05); }
     .tab[aria-selected="true"] { background: var(--primary); color: var(--primary-contrast); }
     .tab:focus-visible { outline: none; box-shadow: var(--ring); }
     .tab:hover { transform: translateY(-1px); }
@@ -109,13 +80,7 @@
     .tabpanel { display: none; padding: 22px; }
     .tabpanel[aria-hidden="false"] { display: block; }
 
-    .btn {
-      appearance: none; border: 0; cursor: pointer; font-weight: 700;
-      background: var(--primary); color: var(--primary-contrast);
-      padding: 10px 14px; border-radius: 10px;
-      box-shadow: 0 6px 16px rgba(42,108,244,.35);
-      transition: transform .15s ease, filter .2s ease;
-    }
+    .btn { appearance: none; border: 0; cursor: pointer; font-weight: 700; background: var(--primary); color: var(--primary-contrast); padding: 10px 14px; border-radius: 10px; box-shadow: 0 6px 16px rgba(42,108,244,.35); transition: transform .15s ease, filter .2s ease; }
     .btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
     .btn:focus-visible { outline: none; box-shadow: var(--ring); }
 
@@ -144,12 +109,9 @@
       .btn:hover, .link:hover { animation: wiggle .6s ease both; }
     }
 
-    /* === Fly-in (falls später wieder aktiviert) === */
-    @keyframes flyIn { to { opacity: 1; transform: translateX(0); } }
-
     /* Reaction Timer styles */
     .rt-box { width: 100%; max-width: 520px; border: 1px dashed rgba(148,163,184,.5); border-radius: 12px; padding: 16px; text-align: center; }
-    .rt-pad { margin-top: 10px; padding: 26px; border-radius: 12px; user-select: none; }
+    .rt-pad { margin-top: 10px; padding: 26px; border-radius: 12px; user-select: none; cursor: pointer; }
     .rt-wait { background: #f8fafc; color: #475569; }
     .rt-ready { background: #ef4444; color: #fff; }
     .rt-go { background: #22c55e; color: #0b1220; }
@@ -160,6 +122,11 @@
     .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
     .stat { font-weight: 800; }
 
+    /* Dropdown (details) */
+    details.game { border: 1px solid rgba(148,163,184,.25); border-radius: 12px; padding: 12px 14px; margin: 14px 0; background: var(--surface); box-shadow: var(--shadow); }
+    details.game > summary { list-style: none; cursor: pointer; font-weight: 800; }
+    details.game > summary::-webkit-details-marker { display: none; }
+    details.game[open] { border-color: rgba(42,108,244,.35); }
   </style>
 </head>
 <body>
@@ -200,65 +167,67 @@
       <div id="panel-games" class="tabpanel" role="tabpanel" aria-labelledby="tab-games" aria-hidden="true">
         <h2>Mini‑Games</h2>
 
-        <!-- SSP -->
-        <article class="game-area" aria-labelledby="ssp-title">
-          <h3 id="ssp-title">🎮 Schere‑Stein‑Papier</h3>
-          <p class="muted">Wähle eine Option und schau, ob du den Bot outplayst. Best of luck, Legend! ✨</p>
-          <div class="choices">
-            <button class="btn" data-choice="Schere">✌️ Schere</button>
-            <button class="btn" data-choice="Stein">🪨 Stein</button>
-            <button class="btn" data-choice="Papier">📄 Papier</button>
-            <button class="btn" id="resetScore" title="Score zurücksetzen">🔁 Reset</button>
-          </div>
-          <p id="ssp-result" class="score">—</p>
-          <p class="muted" id="ssp-score" aria-live="polite">Score: 0 🏆 | Wins: 0 | Losses: 0 | Draws: 0</p>
-        </article>
+        <!-- SSP in Dropdown -->
+        <details class="game" id="dd-ssp">
+          <summary>✂️🪨📄 Schere‑Stein‑Papier</summary>
+          <article class="game-area" aria-labelledby="ssp-title">
+            <h3 id="ssp-title" class="muted">—</h3>
+            <div class="choices">
+              <button class="btn" data-choice="Schere">✌️ Schere</button>
+              <button class="btn" data-choice="Stein">🪨 Stein</button>
+              <button class="btn" data-choice="Papier">📄 Papier</button>
+              <button class="btn" id="resetScore" title="Score zurücksetzen">🔁 Reset</button>
+            </div>
+            <p id="ssp-result" class="score">—</p>
+            <p class="muted" id="ssp-score" aria-live="polite">Score: 0 🏆 | Wins: 0 | Losses: 0 | Draws: 0</p>
+          </article>
+        </details>
 
-        <hr/>
+        <!-- Reaction Timer in Dropdown -->
+        <details class="game" id="dd-rt">
+          <summary>⚡ Reaction Timer</summary>
+          <article class="rt-box" aria-labelledby="rt-title">
+            <h3 id="rt-title" class="muted">—</h3>
+            <div id="rt-pad" class="rt-pad rt-wait">Klicken zum Starten …</div>
+            <div class="row">
+              <div class="stat">Letzte Zeit: <span id="rt-last">–</span> ms</div>
+              <div class="stat">Best: <span id="rt-best">–</span> ms</div>
+              <button id="rt-reset" class="btn" title="Bestzeit löschen">🗑️ Reset Best</button>
+            </div>
+          </article>
+        </details>
 
-        <!-- Reaction Timer -->
-        <article class="rt-box" aria-labelledby="rt-title">
-          <h3 id="rt-title">⚡ Reaction Timer</h3>
-          <p class="muted">Klick so schnell wie möglich, sobald das Feld <strong>grün</strong> wird. Zu früh = fail.</p>
-          <div id="rt-pad" class="rt-pad rt-wait">Drück auf <strong>Start</strong> und warte …</div>
-          <div class="row">
-            <button id="rt-start" class="btn">▶️ Start</button>
-            <div class="stat">Letzte Zeit: <span id="rt-last">–</span> ms</div>
-            <div class="stat">Best: <span id="rt-best">–</span> ms</div>
-            <button id="rt-reset" class="btn" title="Bestzeit löschen">🗑️ Reset Best</button>
-          </div>
-        </article>
+        <!-- Snake in Dropdown -->
+        <details class="game" id="dd-snake">
+          <summary>🐍 Snake</summary>
+          <article class="snake-wrap" aria-labelledby="snake-title">
+            <h3 id="snake-title" class="muted">—</h3>
+            <canvas id="snakeCanvas" width="400" height="400" aria-label="Snake Spielfeld"></canvas>
+            <div class="row">
+              <button id="snake-start" class="btn">▶️ Start</button>
+              <button id="snake-pause" class="btn">⏸️ Pause</button>
+              <button id="snake-reset" class="btn">🔁 Reset</button>
+              <div class="stat">Score: <span id="snake-score">0</span></div>
+              <div class="stat">Best: <span id="snake-best">0</span></div>
+            </div>
+            <p class="muted">Steuerung: Pfeiltasten oder WASD.</p>
+          </article>
+        </details>
 
-        <hr/>
-
-        <!-- Snake -->
-        <article class="snake-wrap" aria-labelledby="snake-title">
-          <h3 id="snake-title">🐍 Snake</h3>
-          <canvas id="snakeCanvas" width="400" height="400" aria-label="Snake Spielfeld"></canvas>
-          <div class="row">
-            <button id="snake-start" class="btn">▶️ Start</button>
-            <button id="snake-pause" class="btn">⏸️ Pause</button>
-            <button id="snake-reset" class="btn">🔁 Reset</button>
-            <div class="stat">Score: <span id="snake-score">0</span></div>
-            <div class="stat">Best: <span id="snake-best">0</span></div>
-          </div>
-          <p class="muted">Steuerung: Pfeiltasten oder WASD. Iss die 🍎, nicht die Wand. Viel Glück, Giga‑Gamer!</p>
-        </article>
-
-        <hr/>
-
-        <!-- Trivia (Fragen später von dir) -->
-        <article class="game-area" aria-labelledby="quiz-title">
-          <h3 id="quiz-title">🧠 Trivia Quiz (deine Fragen)</h3>
-          <p class="muted">Du lieferst die Fragen, ich mach die Logik. Unten sind nur Platzhalter.</p>
-          <div id="quiz-box"></div>
-          <div class="row">
-            <button id="quiz-start" class="btn">📝 Quiz starten</button>
-            <div class="stat">Punkte: <span id="quiz-score">0</span></div>
-            <div class="stat">Best: <span id="quiz-best">0</span></div>
-            <button id="quiz-reset" class="btn" title="Best löschen">🗑️ Reset Best</button>
-          </div>
-        </article>
+        <!-- Trivia in Dropdown -->
+        <details class="game" id="dd-quiz">
+          <summary>🧠 Trivia Quiz</summary>
+          <article class="game-area" aria-labelledby="quiz-title">
+            <h3 id="quiz-title" class="muted">—</h3>
+            <div id="quiz-box"></div>
+            <div class="row">
+              <button id="quiz-start" class="btn">📝 Quiz starten</button>
+              <div class="stat">Punkte: <span id="quiz-score">0</span></div>
+              <div class="stat">Best: <span id="quiz-best">0</span></div>
+              <button id="quiz-reset" class="btn" title="Best löschen">🗑️ Reset Best</button>
+            </div>
+          </article>
+        </details>
 
       </div>
 
@@ -363,32 +332,31 @@
     $$('.choices [data-choice]').forEach(btn => { btn.addEventListener('click', () => playSSP(btn.dataset.choice)); });
     $('#resetScore')?.addEventListener('click', () => { score = { total: 0, win: 0, lose: 0, draw: 0 }; updateScoreline(); sspResult.textContent = '—'; });
 
-    // ===== Reaction Timer =====
+    // ===== Reaction Timer (Pad-only) =====
     const rtPad = $('#rt-pad');
-    const rtStart = $('#rt-start');
     const rtLast = $('#rt-last');
     const rtBest = $('#rt-best');
     const rtReset = $('#rt-reset');
     const rtKey = 'jenbi.rt.best';
-    let rtTimeout = null, rtStartTime = 0, rtArmed = false;
+    let rtTimeout = null, rtStartTime = 0, rtState = 'idle'; // idle | ready (rot) | go (grün)
     function loadRtBest(){ const v = Number(localStorage.getItem(rtKey)); if (v>0) rtBest.textContent = v; }
     loadRtBest();
     function setPad(state, text){ rtPad.className = `rt-pad ${state}`; rtPad.textContent = text; }
-    rtStart.addEventListener('click', () => {
-      clearTimeout(rtTimeout); rtArmed = false; setPad('rt-ready','Warte … nicht klicken!');
+    function armReaction(){
+      rtState = 'ready'; setPad('rt-ready','Warte …');
       const delay = 700 + Math.random()*2300;
-      rtTimeout = setTimeout(() => { rtArmed = true; rtStartTime = performance.now(); setPad('rt-go','JETZT! Klick!'); }, delay);
-    });
+      rtTimeout = setTimeout(()=>{ rtState = 'go'; rtStartTime = performance.now(); setPad('rt-go','JETZT!'); }, delay);
+    }
     rtPad.addEventListener('click', () => {
-      if (!rtStartTime && !rtArmed) { return; }
-      if (!rtArmed) { // zu früh
-        clearTimeout(rtTimeout); setPad('rt-wait','Zu früh! Nochmal „Start“.');
-        return;
+      if (rtState === 'idle') {
+        armReaction();
+      } else if (rtState === 'ready') {
+        clearTimeout(rtTimeout); rtState = 'idle'; setPad('rt-wait','Zu früh! Klick zum Neustart …');
+      } else if (rtState === 'go') {
+        const t = Math.round(performance.now() - rtStartTime);
+        rtLast.textContent = t; setPad('rt-wait','Klick zum Starten …'); rtState = 'idle';
+        const best = Number(rtBest.textContent) || Infinity; if (t < best) { rtBest.textContent = t; localStorage.setItem(rtKey, String(t)); }
       }
-      const t = Math.round(performance.now() - rtStartTime);
-      rtLast.textContent = t; setPad('rt-wait','Nice! Wieder „Start“ fürs nächste Mal.');
-      const best = Number(rtBest.textContent) || Infinity; if (t < best) { rtBest.textContent = t; localStorage.setItem(rtKey, String(t)); }
-      rtArmed = false; rtStartTime = 0;
     });
     rtReset.addEventListener('click', () => { localStorage.removeItem(rtKey); rtBest.textContent = '–'; });
 
@@ -416,7 +384,6 @@
     }
     function step(){
       const head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
-      // wrap optional? -> nein, Game over bei Wand
       if (head.x<0 || head.y<0 || head.x>=cvs.width/size || head.y>=cvs.height/size) { return gameOver(); }
       if (snake.some(s => s.x===head.x && s.y===head.y)) { return gameOver(); }
       snake.unshift(head);
@@ -432,7 +399,6 @@
     $('#snake-start').addEventListener('click', startSnake);
     $('#snake-pause').addEventListener('click', () => clearInterval(tick));
     $('#snake-reset').addEventListener('click', () => { resetSnake(); });
-    // Controls
     window.addEventListener('keydown', (e)=>{
       const k=e.key.toLowerCase();
       if (k==='arrowup'||k==='w'){ if(dir.y!==1){dir={x:0,y:-1};} }
@@ -442,7 +408,7 @@
     });
     resetSnake();
 
-    // ===== Trivia (Placeholder) =====
+    // ===== Trivia (no placeholders) =====
     const quizBox = $('#quiz-box');
     const quizStart = $('#quiz-start');
     const quizScoreEl = $('#quiz-score');
@@ -450,12 +416,8 @@
     const quizKey = 'jenbi.quiz.best';
     let quizScore=0, quizIdx=0;
 
-    // 👉 HIER DEINE FRAGEN EINTRAGEN
-    // type: { q: 'Frage', a: ['Antwort1','Antwort2','Antwort3','Antwort4'], correct: 0 }
-    const QUESTIONS = [
-      { q: 'Beispiel: In welchem Jahr kam Minecraft als Alpha raus?', a: ['2008','2009','2010','2011'], correct: 1 },
-      { q: 'Beispiel: Welche Farbe hat Redstone im Erz?', a: ['Grün','Rot','Blau','Gelb'], correct: 1 }
-    ];
+    // 👉 Deine Fragenliste (leer gelassen)
+    const QUESTIONS = [];
 
     const savedQuizBest = Number(localStorage.getItem(quizKey)||0); quizBestEl.textContent = savedQuizBest;
 
@@ -474,9 +436,15 @@
       });
     }
     function finishQuiz(){
-      quizBox.innerHTML = `<strong>Fertig!</strong> Du hast ${quizScore}/${QUESTIONS.length} Punkten.`;
+      quizBox.innerHTML = `Fertig. Punkte: ${quizScore}/${QUESTIONS.length}`;
       if (quizScore > savedQuizBest) { localStorage.setItem(quizKey, String(quizScore)); quizBestEl.textContent = quizScore; }
     }
+    function updateQuizAvailability(){
+      if (QUESTIONS.length === 0) { quizStart.disabled = true; quizBox.innerHTML = ''; }
+      else { quizStart.disabled = false; }
+    }
+    updateQuizAvailability();
+
     quizStart.addEventListener('click', ()=>{ quizScore=0; quizIdx=0; quizScoreEl.textContent='0'; renderQuestion(); });
     $('#quiz-reset').addEventListener('click', ()=>{ localStorage.removeItem(quizKey); quizBestEl.textContent='0'; });
 
@@ -490,7 +458,6 @@
       const match = KONAMI.every((k, i) => buffer[i] === k);
       if (match) {
         buffer = [];
-        // Öffne Rickroll in neuem Tab (Autoplay wird sonst geblockt)
         window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
         alert('Never gonna give you up 🎶');
       }
