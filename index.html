@@ -7,117 +7,74 @@
   <meta name="description" content="Jenbi – Mini-Games, Links & ein bisserl Über mich." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🎮</text></svg>">
   <style>
-    /* ===== Design Tokens ===== */
-    :root {
-      --bg: #f6f7fb;
-      --surface: #ffffff;
-      --text: #0f172a;
-      --muted: #475569;
-      --primary: #2a6cf4;
-      --primary-contrast: #ffffff;
-      --ring: 0 0 0 3px rgba(42,108,244,.35);
-      --radius: 14px;
-      --shadow: 0 10px 30px rgba(2, 8, 23, 0.08);
+    :root{
+      --bg:#f6f7fb;--surface:#fff;--text:#0f172a;--muted:#475569;
+      --primary:#2a6cf4;--primary-contrast:#fff;--ring:0 0 0 3px rgba(42,108,244,.35);
+      --radius:14px;--shadow:0 10px 30px rgba(2,8,23,.08);
     }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #0b1220;
-        --surface: #0f172a;
-        --text: #e5e7eb;
-        --muted: #94a3b8;
-        --primary: #60a5fa;
-        --primary-contrast: #0b1220;
-        --shadow: 0 12px 40px rgba(0,0,0,.45);
-      }
+    @media (prefers-color-scheme: dark){
+      :root{--bg:#0b1220;--surface:#0f172a;--text:#e5e7eb;--muted:#94a3b8;--primary:#60a5fa;--primary-contrast:#0b1220;--shadow:0 12px 40px rgba(0,0,0,.45);}
     }
-    html[data-theme="light"] {
-      --bg: #f6f7fb; --surface: #ffffff; --text: #0f172a; --muted: #475569;
-      --primary: #2a6cf4; --primary-contrast: #ffffff; --shadow: 0 10px 30px rgba(2, 8, 23, 0.08);
+    html[data-theme="light"]{--bg:#f6f7fb;--surface:#fff;--text:#0f172a;--muted:#475569;--primary:#2a6cf4;--primary-contrast:#fff;--shadow:0 10px 30px rgba(2,8,23,.08);}
+    html[data-theme="dark"]{--bg:#0b1220;--surface:#0f172a;--text:#e5e7eb;--muted:#94a3b8;--primary:#60a5fa;--primary-contrast:#0b1220;--shadow:0 12px 40px rgba(0,0,0,.45);}
+    *{box-sizing:border-box}
+    body{
+      margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);
+      background: radial-gradient(1200px 600px at 80% -10%, rgba(42,108,244,.12), transparent 60%),
+                  radial-gradient(1000px 600px at -10% 10%, rgba(99,102,241,.10), transparent 55%),
+                  var(--bg);
+      line-height:1.6;
     }
-    html[data-theme="dark"] {
-      --bg: #0b1220; --surface: #0f172a; --text: #e5e7eb; --muted: #94a3b8;
-      --primary: #60a5fa; --primary-contrast: #0b1220; --shadow: 0 12px 40px rgba(0,0,0,.45);
+    .wrap{max-width:960px;margin:28px auto;padding:0 16px 56px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{width:56px;height:56px;border-radius:50%;object-fit:cover;box-shadow:0 6px 18px rgba(0,0,0,.15)}
+    .title{font-size:1.6rem;font-weight:800;letter-spacing:.2px}
+    .muted{color:var(--muted);font-size:.95rem}
+    .btn{
+      appearance:none;border:0;cursor:pointer;font-weight:700;background:var(--primary);color:var(--primary-contrast);
+      padding:10px 14px;border-radius:10px;box-shadow:0 6px 16px rgba(42,108,244,.35);
+      transition:transform .15s ease,filter .2s ease
     }
+    .btn:hover{transform:translateY(-1px);filter:brightness(1.05)}
+    .btn:focus-visible{outline:none;box-shadow:var(--ring)}
+    .card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);overflow:clip;border:1px solid rgba(148,163,184,.15)}
+    .tablist{display:flex;flex-wrap:wrap;gap:8px;background:linear-gradient(180deg, rgba(42,108,244,.12), transparent);padding:14px;border-bottom:1px solid rgba(148,163,184,.20)}
+    .tab{appearance:none;border:0;cursor:pointer;background:var(--surface);color:var(--text);padding:10px 14px;border-radius:10px;font-weight:600;transition:transform .15s ease, background .2s ease;box-shadow:0 2px 8px rgba(2,8,23,.05)}
+    .tab[aria-selected="true"]{background:var(--primary);color:var(--primary-contrast)}
+    .tab:hover{transform:translateY(-1px)}
+    .tabpanel{display:none;padding:22px}
+    .tabpanel[aria-hidden="false"]{display:block}
+    .link{color:var(--primary);font-weight:700;text-decoration:none}
+    .game-area{display:grid;gap:14px;max-width:620px}
+    .choices{display:flex;flex-wrap:wrap;gap:10px}
+    .score{font-weight:800}
+    iframe{border:0;width:100%;aspect-ratio:16/9;border-radius:12px}
+    footer{margin-top:24px;color:var(--muted);font-size:.9rem;text-align:center}
 
-    /* ===== Base ===== */
-    * { box-sizing: border-box; }
-    body {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      margin: 0;
-      background:
-        radial-gradient(1200px 600px at 80% -10%, rgba(42,108,244,.12), transparent 60%),
-        radial-gradient(1000px 600px at -10% 10%, rgba(99,102,241,.10), transparent 55%),
-        var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-    .wrap { max-width: 960px; margin: 28px auto; padding: 0 16px 56px; }
-
-    header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
-    .brand { display: flex; align-items: center; gap: 12px; }
-    .brand img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; box-shadow: 0 6px 18px rgba(0,0,0,.15); }
-    .title { font-size: 1.6rem; font-weight: 800; letter-spacing: .2px; }
-    .muted { color: var(--muted); font-size: .95rem; }
-
-    .card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); overflow: clip; border: 1px solid rgba(148,163,184,.15); }
-
-    .tabs { display: grid; grid-template-rows: auto 1fr; min-height: 420px; }
-    .tablist { display: flex; flex-wrap: wrap; gap: 8px; background: linear-gradient(180deg, rgba(42,108,244,.12), transparent); padding: 14px; border-bottom: 1px solid rgba(148,163,184,.20); }
-    .tab {
-      appearance: none; border: 0; cursor: pointer; background: var(--surface); color: var(--text);
-      padding: 10px 14px; border-radius: 10px; font-weight: 600; transition: transform .15s ease, background .2s ease;
-      box-shadow: 0 2px 8px rgba(2, 8, 23, 0.05);
-    }
-    .tab[aria-selected="true"] { background: var(--primary); color: var(--primary-contrast); }
-    .tab:focus-visible { outline: none; box-shadow: var(--ring); }
-    .tab:hover { transform: translateY(-1px); }
-
-    .tabpanel { display: none; padding: 22px; }
-    .tabpanel[aria-hidden="false"] { display: block; }
-
-    .btn {
-      appearance: none; border: 0; cursor: pointer; font-weight: 700; background: var(--primary); color: var(--primary-contrast);
-      padding: 10px 14px; border-radius: 10px; box-shadow: 0 6px 16px rgba(42,108,244,.35); transition: transform .15s ease, filter .2s ease;
-    }
-    .btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
-    .btn:focus-visible { outline: none; box-shadow: var(--ring); }
-
-    .link { color: var(--primary); font-weight: 700; text-decoration: none; }
-    .link:focus-visible { outline: none; box-shadow: var(--ring); border-radius: 6px; }
-
-    .game-area { display: grid; gap: 12px; max-width: 620px; }
-    .choices { display: flex; flex-wrap: wrap; gap: 10px; }
-    .score { font-weight: 800; }
-
-    iframe { border: 0; width: 100%; max-width: 100%; aspect-ratio: 16/9; border-radius: 12px; }
-
-    footer { margin-top: 24px; color: var(--muted); font-size: .9rem; text-align: center; }
-
-    /* Hover-Wackler (nur wenn erlaubt) */
-    @keyframes wiggle {
-      0%,100%{transform:rotate(0)} 15%{transform:rotate(-6deg)} 30%{transform:rotate(6deg)}
-      45%{transform:rotate(-4deg)} 60%{transform:rotate(4deg)} 75%{transform:rotate(-2deg)} 90%{transform:rotate(2deg)}
-    }
-    @media (prefers-reduced-motion: no-preference){ .btn:hover,.link:hover{animation:wiggle .6s ease both} }
-
-    /* Dropdowns */
-    details.game { border:1px solid rgba(148,163,184,.25); border-radius:12px; padding:12px 14px; margin:14px 0; background:var(--surface); box-shadow:var(--shadow); }
-    details.game > summary { list-style:none; cursor:pointer; font-weight:800; }
-    details.game > summary::-webkit-details-marker { display:none; }
-    details.game[open]{ border-color: rgba(42,108,244,.35); }
+    /* Dropdown für Games */
+    .game-select{display:flex;gap:10px;align-items:center}
+    select{padding:10px 12px;border-radius:10px;border:1px solid rgba(148,163,184,.3);background:var(--surface);color:var(--text)}
 
     /* Reaction Timer */
-    .rt-box { width: 100%; max-width: 520px; border: 1px dashed rgba(148,163,184,.5); border-radius: 12px; padding: 16px; text-align: center; }
-    .rt-pad { margin-top: 10px; padding: 26px; border-radius: 12px; user-select: none; cursor: pointer; }
-    .rt-wait { background: #f8fafc; color: #475569; }
-    .rt-ready { background: #ef4444; color: #fff; }
-    .rt-go { background: #22c55e; color: #0b1220; }
+    .react-box{
+      height:160px;border-radius:12px;border:1px dashed rgba(148,163,184,.45);
+      display:flex;align-items:center;justify-content:center;font-weight:800;user-select:none;cursor:pointer
+    }
+    .react-box.wait{background:#8b1d1d22} /* rot-ish */
+    .react-box.go{background:#1d8b1d22}   /* grün-ish */
 
-    /* Snake */
-    .snake-wrap { display: grid; gap: 10px; align-items: start; }
-    #snakeCanvas { background:#0b1220; border:1px solid rgba(148,163,184,.4); border-radius:8px; width:400px; height:400px; image-rendering:pixelated; }
-    .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
-    .stat { font-weight:800; }
+    /* Snake Overlay/Blur */
+    .snake-wrap{position:relative;display:inline-block}
+    .snake-wrap canvas{display:block}
+    .snake-wrap.blurred canvas{filter:blur(3px)}
+    .snake-overlay{
+      position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.15rem;
+      color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.4);background:rgba(0,0,0,.35);border-radius:10px;opacity:0;pointer-events:none;transition:opacity .2s ease;user-select:none
+    }
+    .snake-overlay.show{opacity:1;pointer-events:auto;cursor:pointer}
+
+    .hint{color:var(--muted);font-size:.9rem}
   </style>
 </head>
 <body>
@@ -130,442 +87,452 @@
           <div class="muted">Roblox • Minecraft • Nintendo • aus NÖ 🦌</div>
         </div>
       </div>
-      <button id="themeToggle" class="btn" aria-label="Darstellung umschalten">🌓 Theme</button>
+      <button id="themeToggle" class="btn">🌓 Theme</button>
     </header>
 
-    <section class="card tabs" id="tabs">
-      <div role="tablist" aria-label="Bereiche" class="tablist">
-        <button class="tab" role="tab" id="tab-ueber" aria-controls="panel-ueber" aria-selected="true">🧍 Über mich</button>
-        <button class="tab" role="tab" id="tab-games" aria-controls="panel-games" aria-selected="false">🎮 Mini-Games</button>
-        <button class="tab" role="tab" id="tab-links" aria-controls="panel-links" aria-selected="false">🔗 Links</button>
+    <section class="card" id="tabs">
+      <div role="tablist" class="tablist" aria-label="Bereiche">
+        <button class="tab" role="tab" data-tab="ueber" aria-controls="panel-ueber" aria-selected="true">🧍 Über mich</button>
+        <button class="tab" role="tab" data-tab="games" aria-controls="panel-games" aria-selected="false">🎮 Mini-Games</button>
+        <button class="tab" role="tab" data-tab="links" aria-controls="panel-links" aria-selected="false">🔗 Links</button>
       </div>
 
-      <!-- Über mich -->
-      <div id="panel-ueber" class="tabpanel" role="tabpanel" aria-labelledby="tab-ueber" aria-hidden="false">
+      <div id="panel-ueber" class="tabpanel" role="tabpanel" aria-hidden="false">
         <h2>Über mich</h2>
         <p>Servas! Ich bin <strong>Jenbi</strong> – willkommen auf meiner kleinen, aber feinen Seite. Hier find’sd Mini-Games, Links und a bissl was über mich. 😎</p>
         <p>Ich komm’ aus dem schönen <strong>Niederösterreich</strong> und mach (wenn ich brav bin 😉) Videos zu <em>Roblox</em>, <em>Minecraft</em> und <em>Nintendo</em>.</p>
-        <p>Homies: <strong>Fabian</strong> (IRL), <strong>Joel</strong> (Brawl Stars-Discord), <strong>zLequit</strong> (seit Jahren; über RunningStarJonas; geiler YTer – <em>auch abonnieren auf süß!</em>)</p>
+        <p>Homies: <strong>Fabian</strong> (IRL) und <strong>Joel</strong> (Brawl Stars-Discord).</p>
       </div>
 
-      <!-- Mini-Games -->
-      <div id="panel-games" class="tabpanel" role="tabpanel" aria-labelledby="tab-games" aria-hidden="true">
+      <div id="panel-games" class="tabpanel" role="tabpanel" aria-hidden="true">
         <h2>Mini-Games</h2>
 
-        <details class="game" id="dd-ssp">
-          <summary>✂️🪨📄 Schere-Stein-Papier</summary>
-          <article class="game-area">
-            <div class="choices">
-              <button class="btn" data-choice="Schere">✌️ Schere</button>
-              <button class="btn" data-choice="Stein">🪨 Stein</button>
-              <button class="btn" data-choice="Papier">📄 Papier</button>
-              <button class="btn" id="resetScore" title="Score zurücksetzen">🔁 Reset</button>
+        <div class="game-select">
+          <label for="gameSelect" class="muted">Spiel wählen:</label>
+          <select id="gameSelect" aria-label="Spiel wählen">
+            <option value="none">— bitte auswählen —</option>
+            <option value="ssp">✂️🪨📄 Schere–Stein–Papier</option>
+            <option value="reaction">⚡ Reaktions-Test</option>
+            <option value="snake">🐍 Snake</option>
+            <option value="trivia">❓ Trivia Quiz</option>
+          </select>
+        </div>
+
+        <!-- SSP -->
+        <article id="game-ssp" class="game-area" hidden>
+          <h3>🎮 Schere–Stein–Papier</h3>
+          <p class="muted">Outplay den Bot! (Score wird gespeichert)</p>
+          <div class="choices">
+            <button class="btn" data-choice="Schere">✌️ Schere</button>
+            <button class="btn" data-choice="Stein">🪨 Stein</button>
+            <button class="btn" data-choice="Papier">📄 Papier</button>
+            <button class="btn" id="sspReset">🔁 Reset</button>
+          </div>
+          <p id="ssp-result" class="score">—</p>
+          <p class="muted" id="ssp-score" aria-live="polite">Score: 0 🏆 | Wins: 0 | Losses: 0 | Draws: 0</p>
+        </article>
+
+        <!-- Reaction -->
+        <article id="game-reaction" class="game-area" hidden>
+          <h3>⚡ Reaktions-Test</h3>
+          <p class="muted">Klick ins Feld, um zu starten. Wenn’s grün wird, sofort klicken. Klickst du im Roten → <em>Zu früh!</em></p>
+          <div id="reactBox" class="react-box">Klicke zum Starten</div>
+          <p id="reactResult" class="score">—</p>
+          <p class="muted">Wins: <span id="reactWins">0</span> | Losses: <span id="reactLoss">0</span></p>
+        </article>
+
+        <!-- Snake -->
+        <article id="game-snake" class="game-area" hidden>
+          <h3>🐍 Snake</h3>
+          <div class="snake-wrap" id="snakeWrap">
+            <canvas id="snakeCanvas" width="300" height="300"></canvas>
+            <div id="snakeOverlay" class="snake-overlay">Klicke zum Starten</div>
+          </div>
+          <p>Score: <span id="snakeScore">0</span></p>
+          <p>Wins: <span id="snakeWins">0</span> | Losses: <span id="snakeLoss">0</span></p>
+          <p class="hint">WASD / Pfeile → steuern • <strong>R</strong> → Reset • <strong>Leertaste</strong> → Pause/Resume</p>
+        </article>
+
+        <!-- Trivia -->
+        <article id="game-trivia" class="game-area" hidden>
+          <h3>❓ Trivia Quiz</h3>
+          <p class="muted">Es werden 5 zufällige Fragen gestellt.</p>
+          <div class="choices" style="gap:6px">
+            <button class="btn" id="triviaStart">▶️ Quiz starten</button>
+          </div>
+          <div id="triviaUI" hidden>
+            <p id="triviaQ" class="score">—</p>
+            <input id="triviaAnswer" type="text" placeholder="Antwort eingeben" style="padding:10px;border-radius:10px;border:1px solid rgba(148,163,184,.35);background:var(--surface);color:var(--text);width:100%;max-width:420px">
+            <div class="choices" style="gap:6px;margin-top:8px">
+              <button class="btn" id="triviaSubmit">Antwort senden</button>
+              <button class="btn" id="triviaSkip" title="Frage überspringen">⏭️ Skip</button>
             </div>
-            <p id="ssp-result" class="score">—</p>
-            <p class="muted" id="ssp-score" aria-live="polite">Score: 0 🏆 | Wins: 0 | Losses: 0 | Draws: 0</p>
-          </article>
-        </details>
-
-        <details class="game" id="dd-rt">
-          <summary>⚡ Reaction Timer</summary>
-          <article class="rt-box">
-            <div id="rt-pad" class="rt-pad rt-wait">Klick zum Starten …</div>
-            <div class="row">
-              <div class="stat">Letzte Zeit: <span id="rt-last">–</span> ms</div>
-              <div class="stat">Best: <span id="rt-best">–</span> ms</div>
-              <button id="rt-reset" class="btn" title="Bestzeit löschen">🗑️ Reset Best</button>
-            </div>
-          </article>
-        </details>
-
-        <article class="game-area" aria-labelledby="snake-title">
-  <h3 id="snake-title">🐍 Snake</h3>
-  <canvas id="snakeCanvas" width="320" height="320" style="border-radius:12px;border:1px solid rgba(148,163,184,.25)"></canvas>
-  <p class="muted">
-    Score: <span id="snakeScore">0</span> | Best: <span id="snakeBest">0</span>
-    <button class="btn" id="snakeReset" style="margin-left:10px">🔁 Reset</button>
-    <button class="btn" id="snakePause" style="margin-left:6px">⏸️ Pause</button>
-  </p>
-  <p class="muted">Steuerung: Pfeile/WASD • R = Restart • P = Pause</p>
-</article>
-
-
-        <details class="game" id="dd-quiz">
-          <summary>🧠 Trivia Quiz</summary>
-          <article class="game-area">
-            <div id="quiz-box"></div>
-            <div class="row">
-              <button id="quiz-start" class="btn">📝 Quiz starten</button>
-              <div class="stat">Punkte: <span id="quiz-score">0</span></div>
-              <div class="stat">Best: <span id="quiz-best">0</span></div>
-              <button id="quiz-reset" class="btn" title="Best löschen">🗑️ Reset Best</button>
-            </div>
-          </article>
-        </details>
-
+            <p id="triviaResult" class="muted">—</p>
+            <p class="muted">Frage <span id="triviaNum">0</span>/5 • Richtig: <span id="triviaWins">0</span> • Falsch: <span id="triviaLoss">0</span></p>
+          </div>
+        </article>
       </div>
 
-      <!-- Links -->
-      <div id="panel-links" class="tabpanel" role="tabpanel" aria-labelledby="tab-links" aria-hidden="true">
+      <div id="panel-links" class="tabpanel" role="tabpanel" aria-hidden="true">
         <h2>Links</h2>
         <p>Mein YouTube-Kanal:</p>
         <p><a class="link" href="https://www.youtube.com/@jenbi13" target="_blank" rel="noopener noreferrer">➡️ Jenbi auf YouTube</a></p>
         <p>Beliebtestes Video:</p>
-        <iframe title="Beliebtestes Video von Jenbi"
-          src="https://www.youtube.com/embed/lDBJk9_NfrY?si=6cJZscBPXnm-Akve"
-          loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
-        </iframe>
+        <iframe title="Beliebtestes Video von Jenbi" src="https://www.youtube.com/embed/lDBJk9_NfrY" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       </div>
     </section>
 
     <footer>
-      <p>© <span id="year"></span> Jenbi • Gemacht mit <span aria-label="Liebe" role="img">❤️</span> & ein bissl Schmäh.</p>
+      <p>© <span id="year"></span> Jenbi • Gemacht mit ❤️ & ein bissl Schmäh.</p>
     </footer>
   </div>
 
   <script>
-    const $ = (sel, root=document) => root.querySelector(sel);
-    const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+    const $ = (s, r=document)=>r.querySelector(s);
+    const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
 
-    // Theme Toggle (mit Guard)
+    /* ===== Theme (persist) ===== */
     const themeToggle = $('#themeToggle');
-    const prefKey = 'jenbi.theme';
-    const savedTheme = localStorage.getItem(prefKey);
-    document.documentElement.setAttribute('data-theme',
-      (savedTheme === 'light' || savedTheme === 'dark') ? savedTheme : 'auto'
-    );
-    themeToggle?.addEventListener('click', () => {
+    const THEME_KEY = 'jenbi.theme';
+    (function initTheme(){
+      const saved = localStorage.getItem(THEME_KEY);
+      if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+      else document.documentElement.setAttribute('data-theme', 'auto');
+    })();
+    themeToggle.addEventListener('click', ()=>{
       const cur = document.documentElement.getAttribute('data-theme');
       const next = cur === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem(prefKey, next);
+      localStorage.setItem(THEME_KEY, next);
     });
 
-    // Tabs (mit Guard)
-    const tabs = $$('.tab');
+    /* ===== Tabs ===== */
+    const tabButtons = $$('.tab');
     const panels = $$('.tabpanel');
-    function activateTab(index, pushHash = true) {
-      tabs.forEach((t, i) => {
-        const selected = i === index;
-        t.setAttribute('aria-selected', String(selected));
-        t.tabIndex = selected ? 0 : -1;
-        const panel = $('#' + t.getAttribute('aria-controls'));
-        panel?.setAttribute('aria-hidden', String(!selected));
+    function showTab(name){
+      tabButtons.forEach(b=>{
+        const active = b.dataset.tab === name;
+        b.setAttribute('aria-selected', active);
       });
-      if (pushHash && tabs[index]) {
-        const id = tabs[index].id.replace('tab-', '');
-        history.replaceState(null, '', '#' + id);
-      }
-      tabs[index]?.focus({ preventScroll: true });
+      panels.forEach(p=>{
+        p.setAttribute('aria-hidden', p.id !== 'panel-'+name);
+      });
     }
-    tabs.forEach((tab, i) => {
-      tab.addEventListener('click', () => activateTab(i));
-      tab.addEventListener('keydown', (e) => {
-        const key = e.key;
-        if (key === 'ArrowRight' || key === 'ArrowLeft') {
-          e.preventDefault();
-          const dir = key === 'ArrowRight' ? 1 : -1;
-          let next = (i + dir + tabs.length) % tabs.length;
-          activateTab(next);
-        }
-        if (key === 'Home') { e.preventDefault(); activateTab(0); }
-        if (key === 'End')  { e.preventDefault(); activateTab(tabs.length-1); }
-      });
+    tabButtons.forEach(btn=>{
+      btn.addEventListener('click', ()=>showTab(btn.dataset.tab));
     });
-    (function initFromHash(){
-      const hash = location.hash.replace('#','');
-      const idx = tabs.findIndex(t => t.id === 'tab-' + hash);
-      activateTab(idx >= 0 ? idx : 0, false);
-    })();
 
-    // ===== SSP =====
-    const sspKey = 'jenbi.ssp.score';
-    const sspResult = $('#ssp-result');
-    const sspScoreEl = $('#ssp-score');
-    let score = { total: 0, win: 0, lose: 0, draw: 0 };
-    try { const saved = JSON.parse(localStorage.getItem(sspKey)); if (saved && typeof saved === 'object') score = saved; } catch {}
-    const choices = ['Schere','Stein','Papier'];
-    const beats = { Schere: 'Papier', Stein: 'Schere', Papier: 'Stein' };
-    function updateScoreline() {
-      if (!sspScoreEl) return;
-      sspScoreEl.textContent = `Score: ${score.total} 🏆 | Wins: ${score.win} | Losses: ${score.lose} | Draws: ${score.draw}`;
-      localStorage.setItem(sspKey, JSON.stringify(score));
+    /* ===== Game Dropdown ===== */
+    const gameSelect = $('#gameSelect');
+    const gameSections = {
+      ssp: $('#game-ssp'),
+      reaction: $('#game-reaction'),
+      snake: $('#game-snake'),
+      trivia: $('#game-trivia')
+    };
+    function setGame(val){
+      Object.values(gameSections).forEach(sec=>sec.hidden = true);
+      if (val in gameSections) gameSections[val].hidden = false;
     }
-    updateScoreline();
-    function playSSP(choice) {
+    gameSelect.addEventListener('change', ()=>setGame(gameSelect.value));
+    setGame('none');
+
+    /* ===== SSP (persist score) ===== */
+    const SSP_KEY = 'jenbi.ssp.score';
+    const sspScoreEl = $('#ssp-score');
+    const sspResultEl = $('#ssp-result');
+    let sspScore = { total:0, win:0, lose:0, draw:0 };
+    try{
+      const saved = JSON.parse(localStorage.getItem(SSP_KEY));
+      if (saved && typeof saved==='object') sspScore = saved;
+    }catch{}
+    function sspSync(){
+      sspScoreEl.textContent = `Score: ${sspScore.total} 🏆 | Wins: ${sspScore.win} | Losses: ${sspScore.lose} | Draws: ${sspScore.draw}`;
+      localStorage.setItem(SSP_KEY, JSON.stringify(sspScore));
+    }
+    sspSync();
+    const choices = ['Schere','Stein','Papier'];
+    const beats = { Schere:'Papier', Stein:'Schere', Papier:'Stein' };
+    function playSSP(choice){
       const bot = choices[Math.floor(Math.random()*3)];
       let msg;
-      if (choice === bot) { score.draw++; score.total++; msg = `${choice} vs ${bot} … Unentschieden!`; }
-      else if (beats[choice] === bot) { score.win++; score.total++; msg = `${choice} vs ${bot} … DU HAST GEWONNEN!`; }
-      else { score.lose++; score.total++; msg = `${choice} vs ${bot} … Du hast verloren!`; }
-      if (sspResult) sspResult.textContent = msg; updateScoreline();
+      if (choice===bot){ sspScore.draw++; sspScore.total++; msg = `${choice} vs ${bot} … Unentschieden!`; }
+      else if (beats[choice]===bot){ sspScore.win++; sspScore.total++; msg = `${choice} vs ${bot} … DU HAST GEWONNEN!`; }
+      else { sspScore.lose++; sspScore.total++; msg = `${choice} vs ${bot} … Du hast verloren!`; }
+      sspResultEl.textContent = msg; sspSync();
     }
-    $$('.choices [data-choice]').forEach(btn => btn.addEventListener('click', () => playSSP(btn.dataset.choice)));
-    $('#resetScore')?.addEventListener('click', () => { score = { total: 0, win: 0, lose: 0, draw: 0 }; updateScoreline(); if (sspResult) sspResult.textContent = '—'; });
+    $$('#game-ssp [data-choice]').forEach(b=>b.addEventListener('click', ()=>playSSP(b.dataset.choice)));
+    $('#sspReset').addEventListener('click', ()=>{ sspScore={total:0,win:0,lose:0,draw:0}; sspSync(); sspResultEl.textContent='—'; });
 
-    // ===== Reaction Timer (Pad-only) =====
-    const rtPad = $('#rt-pad'), rtLast = $('#rt-last'), rtBest = $('#rt-best'), rtReset = $('#rt-reset');
-    const rtKey = 'jenbi.rt.best';
-    let rtTimeout = null, rtStartTime = 0, rtState = 'idle'; // idle | ready | go
-    if (rtBest) { const v = Number(localStorage.getItem(rtKey)); if (v>0) rtBest.textContent = v; }
-    function setPad(state, text){ if (!rtPad) return; rtPad.className = `rt-pad ${state}`; rtPad.textContent = text; }
-    function armReaction(){
-      rtState = 'ready'; setPad('rt-ready','Warte …');
-      const delay = 700 + Math.random()*2300;
-      rtTimeout = setTimeout(()=>{ rtState = 'go'; rtStartTime = performance.now(); setPad('rt-go','JETZT!'); }, delay);
+    /* ===== Reaction Timer (box controls everything) ===== */
+    const reactBox = $('#reactBox');
+    const reactResult = $('#reactResult');
+    const reactWinsEl = $('#reactWins');
+    const reactLossEl = $('#reactLoss');
+    let reactState = 'idle'; // idle | waiting | go
+    let reactTimeout = null;
+    let reactStart = 0;
+    let rw=0, rl=0;
+
+    function setReactState(st){
+      reactState = st;
+      reactBox.classList.remove('wait','go');
+      if (st==='idle'){ reactBox.textContent = 'Klicke zum Starten'; }
+      if (st==='waiting'){ reactBox.classList.add('wait'); reactBox.textContent = 'Warte auf Grün…'; }
+      if (st==='go'){ reactBox.classList.add('go'); reactBox.textContent = 'JETZT! Klicken!'; }
     }
-    rtPad?.addEventListener('click', () => {
-      if (rtState === 'idle') {
-        armReaction();
-      } else if (rtState === 'ready') {
-        clearTimeout(rtTimeout); rtState = 'idle'; setPad('rt-wait','Zu früh! Klick zum Neustart …');
-      } else if (rtState === 'go') {
-        const t = Math.round(performance.now() - rtStartTime);
-        if (rtLast) rtLast.textContent = t;
-        setPad('rt-wait','Klick zum Starten …'); rtState = 'idle';
-        const best = Number(rtBest?.textContent) || Infinity;
-        if (t < best && rtBest) { rtBest.textContent = t; localStorage.setItem(rtKey, String(t)); }
+    setReactState('idle');
+
+    reactBox.addEventListener('click', ()=>{
+      if (reactState==='idle'){
+        setReactState('waiting');
+        reactResult.textContent = '—';
+        clearTimeout(reactTimeout);
+        reactTimeout = setTimeout(()=>{
+          setReactState('go');
+          reactStart = Date.now();
+        }, 1000 + Math.random()*2000);
+      } else if (reactState==='waiting'){
+        // zu früh
+        clearTimeout(reactTimeout);
+        rl++; reactLossEl.textContent = rl;
+        reactResult.textContent = 'Zu früh!';
+        setReactState('idle');
+      } else if (reactState==='go'){
+        const t = Date.now() - reactStart;
+        rw++; reactWinsEl.textContent = rw;
+        reactResult.textContent = `Reaktion: ${t} ms`;
+        setReactState('idle');
       }
     });
-    rtReset?.addEventListener('click', () => { localStorage.removeItem(rtKey); if (rtBest) rtBest.textContent = '–'; });
 
-    // ===== Snake (robuste Version) =====
-(() => {
-  const cvs = document.getElementById('snakeCanvas');
-  if (!cvs) return; // falls das Spiel gerade nicht auf der Seite ist
-  const ctx = cvs.getContext('2d');
+    /* ===== Snake (overlay + pause blur) ===== */
+    const canvas = $('#snakeCanvas');
+    const ctx = canvas.getContext('2d');
+    const box = 15;
+    const snakeWrap = $('#snakeWrap');
+    const snakeOverlay = $('#snakeOverlay');
+    const snakeScoreEl = $('#snakeScore');
+    const snakeWinsEl = $('#snakeWins');
+    const snakeLossEl = $('#snakeLoss');
+    let snake = [];
+    let dir = '';
+    let food = {x:0,y:0};
+    let snakeScore = 0;
+    let snakeWins = 0, snakeLoss = 0;
+    let snakeInterval = null;
+    let snakeState = 'idle'; // idle | running | paused | gameover
 
-  const CELL = 16;                 // Zellgröße in px
-  const COLS = Math.floor(cvs.width  / CELL);
-  const ROWS = Math.floor(cvs.height / CELL);
-  const TICK_MS = 110;             // Spieltick
-
-  const bestKey = 'jenbi.snake.best';
-  let best = Number(localStorage.getItem(bestKey)) || 0;
-
-  const scoreEl = document.getElementById('snakeScore');
-  const bestEl  = document.getElementById('snakeBest');
-  const btnReset = document.getElementById('snakeReset');
-  const btnPause = document.getElementById('snakePause');
-
-  bestEl.textContent = best;
-
-  // State
-  let snake, dir, nextDir, food, score, running, acc, lastTs, paused;
-
-  function rndCell() {
-    return { x: Math.floor(Math.random()*COLS), y: Math.floor(Math.random()*ROWS) };
-  }
-
-  function spawnFood() {
-    // Stelle sicher, dass Food nicht auf der Snake liegt
-    let f;
-    do { f = rndCell(); }
-    while (snake.some(s => s.x === f.x && s.y === f.y));
-    food = f;
-  }
-
-  function reset() {
-    snake = [{x: Math.floor(COLS/2), y: Math.floor(ROWS/2)}];
-    dir = {x: 1, y: 0};           // Start nach rechts
-    nextDir = dir;
-    score = 0;
-    scoreEl.textContent = score;
-    paused = false;
-    spawnFood();
-    acc = 0; lastTs = undefined;
-    if (!running) {
-      running = true;
-      requestAnimationFrame(loop);
+    function spawnFood(){
+      do{
+        food = {
+          x: Math.floor(Math.random()*(canvas.width/box))*box,
+          y: Math.floor(Math.random()*(canvas.height/box))*box
+        };
+      }while(snake.some(s=>s.x===food.x && s.y===food.y));
     }
-  }
-
-  function setDir(nx, ny) {
-    // Turn-Buffer: max 1 Turn pro Tick & nicht in die Gegenrichtung
-    const opposite = (dir.x === -nx && dir.y === -ny);
-    if (opposite) return;
-    // Wenn bereits ein nächste Richtung gesetzt wurde, nicht spammen
-    if (nextDir !== dir) return;
-    nextDir = {x: nx, y: ny};
-  }
-
-  // Input
-  window.addEventListener('keydown', (e) => {
-    const k = e.key.toLowerCase();
-    if (['arrowup','arrowdown','arrowleft','arrowright',' '].includes(e.key.toLowerCase())) {
-      // verhindern, dass die Seite scrollt
-      e.preventDefault?.();
+    function updateSnakeUI(){
+      snakeScoreEl.textContent = snakeScore;
+      snakeWinsEl.textContent = snakeWins;
+      snakeLossEl.textContent = snakeLoss;
     }
-    if (k === 'arrowup' || k === 'w') setDir(0,-1);
-    else if (k === 'arrowdown' || k === 's') setDir(0, 1);
-    else if (k === 'arrowleft' || k === 'a') setDir(-1,0);
-    else if (k === 'arrowright' || k === 'd') setDir(1, 0);
-    else if (k === 'r') reset();
-    else if (k === 'p') togglePause();
-  });
-
-  btnReset?.addEventListener('click', reset);
-  btnPause?.addEventListener('click', togglePause);
-
-  function togglePause() {
-    paused = !paused;
-    btnPause.textContent = paused ? '▶️ Weiter' : '⏸️ Pause';
-  }
-
-  function step() {
-    // Richtung übernehmen (einmal pro Tick)
-    dir = nextDir;
-
-    const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
-
-    // Kollision Wand
-    if (head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS) return gameOver();
-
-    // Kollision Körper
-    if (snake.some(s => s.x === head.x && s.y === head.y)) return gameOver();
-
-    // bewegen
-    snake.unshift(head);
-
-    // Essen?
-    if (head.x === food.x && head.y === food.y) {
-      score++;
-      scoreEl.textContent = score;
-      if (score > best) {
-        best = score;
-        bestEl.textContent = best;
-        localStorage.setItem(bestKey, best);
-      }
+    function showSnakeOverlay(text, blur=false){
+      snakeOverlay.textContent = text;
+      snakeOverlay.classList.add('show');
+      snakeWrap.classList.toggle('blurred', !!blur);
+    }
+    function hideSnakeOverlay(){
+      snakeOverlay.classList.remove('show');
+      snakeWrap.classList.remove('blurred');
+    }
+    function drawSnakeFrame(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      // body
+      ctx.fillStyle='green';
+      snake.forEach(seg=>ctx.fillRect(seg.x,seg.y,box,box));
+      // food
+      ctx.fillStyle='red';
+      ctx.fillRect(food.x,food.y,box,box);
+    }
+    function resetSnake(toIdle=true){
+      snake = [{x:10*box, y:10*box}];
+      dir = '';
+      snakeScore = 0;
       spawnFood();
-    } else {
-      snake.pop();
+      clearInterval(snakeInterval);
+      drawSnakeFrame();
+      updateSnakeUI();
+      if (toIdle){
+        snakeState='idle';
+        showSnakeOverlay('Klicke zum Starten', false);
+      } else {
+        startSnake();
+      }
     }
-  }
+    function startSnake(){
+      if (snakeState==='running') return;
+      hideSnakeOverlay();
+      snakeState='running';
+      clearInterval(snakeInterval);
+      snakeInterval=setInterval(tickSnake, 100);
+    }
+    function pauseSnake(){
+      if (snakeState!=='running') return;
+      snakeState='paused';
+      clearInterval(snakeInterval);
+      showSnakeOverlay('Pause', true);
+    }
+    function resumeSnake(){
+      if (snakeState!=='paused') return;
+      startSnake();
+    }
+    function tickSnake(){
+      drawSnakeFrame();
+      // next head
+      let head = {x:snake[0].x, y:snake[0].y};
+      if (dir==='LEFT') head.x -= box;
+      if (dir==='RIGHT') head.x += box;
+      if (dir==='UP') head.y -= box;
+      if (dir==='DOWN') head.y += box;
 
-  function draw() {
-    // Hintergrund
-    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--surface')?.trim() || '#0f172a';
-    ctx.fillRect(0, 0, cvs.width, cvs.height);
-
-    // leichte Grid-Optik (optional)
-    ctx.globalAlpha = 0.08;
-    ctx.fillStyle = '#000';
-    for (let x = 0; x < COLS; x++) ctx.fillRect(x*CELL, 0, 1, cvs.height);
-    for (let y = 0; y < ROWS; y++) ctx.fillRect(0, y*CELL, cvs.width, 1);
-    ctx.globalAlpha = 1;
-
-    // Food
-    ctx.fillStyle = '#ef4444';
-    ctx.fillRect(food.x*CELL, food.y*CELL, CELL, CELL);
-
-    // Snake
-    ctx.fillStyle = '#22c55e';
-    snake.forEach((s, i) => {
-      ctx.fillRect(s.x*CELL, s.y*CELL, CELL, CELL);
+      const hitWall = head.x<0 || head.x>=canvas.width || head.y<0 || head.y>=canvas.height;
+      const hitSelf = snake.some((s,i)=>i!==0 && s.x===head.x && s.y===head.y);
+      if (hitWall || hitSelf){
+        snakeLoss++; updateSnakeUI();
+        clearInterval(snakeInterval);
+        snakeState='gameover';
+        showSnakeOverlay('Klicke zum Starten', false);
+        return;
+      }
+      snake.unshift(head);
+      if (head.x===food.x && head.y===food.y){
+        snakeScore++; updateSnakeUI(); spawnFood();
+        // kleines „Win“-Gefühl bei jedem 10er?
+        if (snakeScore>0 && snakeScore % 10 === 0){ snakeWins++; updateSnakeUI(); }
+      } else {
+        snake.pop();
+      }
+    }
+    // Steuerung
+    document.addEventListener('keydown', (e)=>{
+      const k = e.key.toUpperCase();
+      if ((k==='ARROWUP' || k==='W') && dir!=='DOWN') dir='UP';
+      else if ((k==='ARROWDOWN' || k==='S') && dir!=='UP') dir='DOWN';
+      else if ((k==='ARROWLEFT' || k==='A') && dir!=='RIGHT') dir='LEFT';
+      else if ((k==='ARROWRIGHT' || k==='D') && dir!=='LEFT') dir='RIGHT';
+      else if (k==='R'){ resetSnake(true); }
+      else if (k===' ' || k==='SPACEBAR'){
+        e.preventDefault();
+        if (snakeState==='running') pauseSnake();
+        else if (snakeState==='paused') resumeSnake();
+      }
     });
-  }
+    // Overlay klick: Start/Resume
+    snakeOverlay.addEventListener('click', ()=>{
+      if (snakeState==='idle' || snakeState==='gameover') resetSnake(false);
+      else if (snakeState==='paused') resumeSnake();
+    });
+    // Initial vorbereiten (aber Spiel ist erst nach Auswahl sichtbar)
+    resetSnake(true);
 
-  function loop(ts) {
-    if (!running) return;
-    if (paused) { requestAnimationFrame(loop); return; }
-    if (lastTs === undefined) lastTs = ts;
-    const delta = ts - lastTs;
-    lastTs = ts;
-    acc += delta;
-
-    while (acc >= TICK_MS) {
-      step();
-      acc -= TICK_MS;
-    }
-    draw();
-    requestAnimationFrame(loop);
-  }
-
-  function gameOver() {
-    running = false;
-    // kurzer „Shake“-Effekt:
-    cvs.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:250});
-    // Auto-Restart nach kurzer Pause
-    setTimeout(reset, 500);
-  }
-
-  // Start
-  reset();
-})();
-
-
-    // ===== Trivia (20er Pool → random 5) =====
-    const quizBox = $('#quiz-box'), quizStart = $('#quiz-start'), quizScoreEl = $('#quiz-score'), quizBestEl = $('#quiz-best');
-    const quizKey = 'jenbi.quiz.best'; let quizScore=0, quizIdx=0;
-    const QUESTIONS = [
-      // Geschichte
-      { q: 'In welchem Jahr fiel die Berliner Mauer?', a: ['1987','1989','1991','1993'], correct: 1 },
-      { q: 'Wer gilt als Erfinder des Buchdrucks in Europa?', a: ['Leonardo da Vinci','Johannes Gutenberg','Isaac Newton','Martin Luther'], correct: 1 },
-      { q: 'Wann war der Zweite Weltkrieg?', a: ['1914–1918','1939–1945','1950–1953','1961–1975'], correct: 1 },
-      { q: 'Amtssprache des Römischen Reiches?', a: ['Griechisch','Latein','Aramäisch','Gotisch'], correct: 1 },
-      { q: 'Erster Mensch auf dem Mond (1969)?', a: ['Buzz Aldrin','Yuri Gagarin','Neil Armstrong','Michael Collins'], correct: 2 },
-      // Minecraft
-      { q: 'Vollversion (Java 1.0) Release-Jahr?', a: ['2009','2010','2011','2012'], correct: 2 },
-      { q: 'Was droppen Creeper standardmäßig?', a: ['Knochen','Schwarzpulver','Fäden','Schleimball'], correct: 1 },
-      { q: 'Min. Obsidian für Netherportal?', a: ['8','10','12','14'], correct: 1 },
-      { q: 'Berufsstation vom Geistlichen (Cleric)?', a: ['Schmiedetisch','Braustand','Webstuhl','Komposter'], correct: 1 },
-      { q: 'Max Stack von Enderperlen?', a: ['16','32','64','8'], correct: 0 },
-      // Geographie
-      { q: 'Hauptstadt von Australien?', a: ['Sydney','Melbourne','Canberra','Perth'], correct: 2 },
-      { q: 'Flächenmäßig größtes Land?', a: ['Kanada','Russland','China','USA'], correct: 1 },
-      { q: 'Kleinstes Land der Welt?', a: ['Monaco','San Marino','Vatikanstadt','Liechtenstein'], correct: 2 },
-      { q: 'Kontinent mit den meisten Staaten?', a: ['Europa','Afrika','Asien','Südamerika'], correct: 1 },
-      { q: 'Hauptstadt von Kanada?', a: ['Toronto','Vancouver','Ottawa','Montreal'], correct: 2 },
-      // Nintendo / Odyssey
-      { q: 'Release-Jahr von Super Mario Odyssey?', a: ['2015','2016','2017','2018'], correct: 2 },
-      { q: 'Name des Hut-Begleiters in Odyssey?', a: ['Toad','Cappy','Luma','Pauline'], correct: 1 },
-      { q: 'Haupt-Sammelobjekte in Odyssey?', a: ['Power-Sterne','Power-Monde','Shines','Wundersaaten'], correct: 1 },
-      { q: 'Frühes T-Rex-Königreich?', a: ['Wooded','Sand','Cascade','Metro'], correct: 2 },
-      { q: 'Zusatzwährung pro Königreich?', a: ['Violette Regionalmünzen','Rote Sterne','Blaue Rubine','Silberne Ringe'], correct: 0 },
+    /* ===== Trivia ===== */
+    const TRIVIA_POOL = [
+      // Geschichte (5)
+      {q:'In welchem Jahr fiel die Berliner Mauer?', a:'1989'},
+      {q:'Wer war der erste Bundeskanzler der BRD?', a:'konrad adenauer'},
+      {q:'Wie hieß das römische Imperium auf Deutsch?', a:'römisches reich'},
+      {q:'Welcher Entdecker erreichte 1492 Amerika?', a:'christoph kolumbus'},
+      {q:'Welche Stadt wurde 79 n. Chr. vom Vesuv verschüttet?', a:'pompeji'},
+      // Minecraft (5)
+      {q:'Wie heißt das grüne, explodierende Monster?', a:'creeper'},
+      {q:'Welches Tier droppt Leder?', a:'kuh'},
+      {q:'Wie heißt die Dimension mit dem Enderdrachen?', a:'das ende'},
+      {q:'Welche Spitzhacke braucht man für Obsidian?', a:'diamant'},
+      {q:'Welcher mob droppt enderperlen?', a:'enderman'},
+      // Geographie (5)
+      {q:'Hauptstadt von Österreich?', a:'wien'},
+      {q:'Längster Fluss der Welt?', a:'nil'},
+      {q:'Welcher Kontinent hat die Sahara?', a:'afrika'},
+      {q:'Höchster Berg der Erde?', a:'mount everest'},
+      {q:'Hauptstadt von Frankreich?', a:'paris'},
+      // Fußball (5)
+      {q:'Wie groß ist ein Team beim Fußball (ohne Wechsel)?', a:'11'},
+      {q:'Wie heißt das größte Turnier für Nationalmannschaften?', a:'weltmeisterschaft'},
+      {q:'Wie nennt man den Schiedsrichter-Assistenten an der Linie?', a:'linienrichter'},
+      {q:'Welches Teil des Tores ist oben quer?', a:'latte'},
+      {q:'Wie heißt die europäische Vereinsmeisterschaft?', a:'champions league'}
     ];
-    function pickRandom(arr, n){ const copy = arr.slice(); for (let i = copy.length - 1; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [copy[i], copy[j]] = [copy[j], copy[i]]; } return copy.slice(0,n); }
-    let QUIZ = [];
-    const savedQuizBest = Number(localStorage.getItem(quizKey)||0); if (quizBestEl) quizBestEl.textContent = savedQuizBest;
+    const triviaStartBtn = $('#triviaStart');
+    const triviaUI = $('#triviaUI');
+    const triviaQ = $('#triviaQ');
+    const triviaAnswer = $('#triviaAnswer');
+    const triviaSubmit = $('#triviaSubmit');
+    const triviaSkip = $('#triviaSkip');
+    const triviaNumEl = $('#triviaNum');
+    const triviaWinsEl = $('#triviaWins');
+    const triviaLossEl = $('#triviaLoss');
+    const triviaResult = $('#triviaResult');
 
-    function renderQuestion(){
-      if (quizIdx >= QUIZ.length) return finishQuiz();
-      const {q, a, correct} = QUIZ[quizIdx];
-      if (!quizBox) return;
-      quizBox.innerHTML = '';
-      const h = document.createElement('p'); h.textContent = q; quizBox.appendChild(h);
-      a.forEach((txt, i)=>{
-        const b = document.createElement('button'); b.className='btn'; b.style.marginRight='8px'; b.textContent = txt;
-        b.addEventListener('click', ()=>{
-          if (i===correct) { quizScore++; if (quizScoreEl) quizScoreEl.textContent = String(quizScore); }
-          quizIdx++; renderQuestion();
-        });
-        quizBox.appendChild(b);
-      });
-    }
-    function finishQuiz(){
-      if (!quizBox) return;
-      quizBox.innerHTML = `Fertig. Punkte: ${quizScore}/${QUIZ.length}`;
-      if (quizScore > savedQuizBest) { localStorage.setItem(quizKey, String(quizScore)); if (quizBestEl) quizBestEl.textContent = String(quizScore); }
-    }
-    function updateQuizAvailability(){ if (quizStart) quizStart.disabled = QUESTIONS.length < 5; }
-    updateQuizAvailability();
-    quizStart?.addEventListener('click', ()=>{ QUIZ = pickRandom(QUESTIONS, 5); quizScore=0; quizIdx=0; if (quizScoreEl) quizScoreEl.textContent='0'; renderQuestion(); });
-    $('#quiz-reset')?.addEventListener('click', ()=>{ localStorage.removeItem(quizKey); if (quizBestEl) quizBestEl.textContent='0'; });
+    let triviaList = [];
+    let triviaIndex = 0;
+    let tWins = 0, tLoss = 0;
 
-    // ===== Konami Code → Rickroll =====
+    function pickFiveRandom(arr){
+      const copy = [...arr];
+      for (let i=copy.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy.slice(0,5);
+    }
+    function showTrivia(){
+      if (triviaIndex >= triviaList.length){
+        triviaQ.textContent = 'Fertig! 🎉';
+        triviaResult.textContent = '—';
+        triviaUI.hidden = false;
+        return;
+      }
+      triviaQ.textContent = triviaList[triviaIndex].q;
+      triviaNumEl.textContent = (triviaIndex+1);
+      triviaAnswer.value = '';
+      triviaAnswer.focus();
+      triviaResult.textContent = '—';
+    }
+    triviaStartBtn.addEventListener('click', ()=>{
+      tWins=0; tLoss=0; triviaIndex=0;
+      triviaWinsEl.textContent = tWins; triviaLossEl.textContent = tLoss;
+      triviaList = pickFiveRandom(TRIVIA_POOL);
+      triviaUI.hidden = false;
+      showTrivia();
+    });
+    function checkTrivia(submitSkip=false){
+      if (triviaIndex >= triviaList.length) return;
+      const right = triviaList[triviaIndex].a.trim().toLowerCase();
+      const got = (submitSkip ? '' : triviaAnswer.value.trim().toLowerCase());
+      if (!submitSkip && got && (got===right || right.startsWith(got) && right.length>3)){
+        tWins++; triviaWinsEl.textContent = tWins;
+        triviaResult.textContent = '✅ Richtig!';
+      } else {
+        tLoss++; triviaLossEl.textContent = tLoss;
+        triviaResult.textContent = `❌ Falsch! Richtige Antwort: ${right}`;
+      }
+      triviaIndex++;
+      setTimeout(showTrivia, 700);
+    }
+    triviaSubmit.addEventListener('click', ()=>checkTrivia(false));
+    triviaSkip.addEventListener('click', ()=>checkTrivia(true));
+    triviaAnswer.addEventListener('keydown', (e)=>{ if (e.key==='Enter') checkTrivia(false); });
+
+    /* ===== Konami Code → Rickroll ===== */
     const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-    let buffer = [];
-    window.addEventListener('keydown', (e)=>{
-      const key = e.key.length===1 ? e.key.toLowerCase() : e.key;
-      buffer.push(key);
-      if (buffer.length > KONAMI.length) buffer.shift();
-      const match = KONAMI.every((k, i) => buffer[i] === k);
-      if (match) { buffer = []; window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank'); alert('Never gonna give you up 🎶'); }
+    let kPos = 0;
+    document.addEventListener('keydown', (e)=>{
+      if (e.key === KONAMI[kPos]) { kPos++; if (kPos===KONAMI.length){ window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ','_blank'); kPos=0; } }
+      else { kPos = 0; }
     });
 
-    // Footer year
+    /* Footer year */
     $('#year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
-
