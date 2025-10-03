@@ -1,151 +1,329 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-theme="auto">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Jen.bi</title>
+  <meta name="description" content="Jenbi – Mini-Games, Links & ein bisserl Über mich." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🎮</text></svg>">
   <style>
+    /* ===== Design Tokens ===== */
+    :root {
+      --bg: #f6f7fb;
+      --surface: #ffffff;
+      --text: #0f172a; /* slate-900 */
+      --muted: #475569; /* slate-600 */
+      --primary: #2a6cf4;
+      --primary-contrast: #ffffff;
+      --ring: 0 0 0 3px rgba(42,108,244,.35);
+      --radius: 14px;
+      --shadow: 0 10px 30px rgba(2, 8, 23, 0.08);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b1220;        
+        --surface: #0f172a;
+        --text: #e5e7eb;
+        --muted: #94a3b8;
+        --primary: #60a5fa;
+        --primary-contrast: #0b1220;
+        --shadow: 0 12px 40px rgba(0,0,0,.45);
+      }
+    }
+    /* Light/Dark override via toggle */
+    html[data-theme="light"] {
+      --bg: #f6f7fb;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --primary: #2a6cf4;
+      --primary-contrast: #ffffff;
+      --shadow: 0 10px 30px rgba(2, 8, 23, 0.08);
+    }
+    html[data-theme="dark"] {
+      --bg: #0b1220;        
+      --surface: #0f172a;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --primary: #60a5fa;
+      --primary-contrast: #0b1220;
+      --shadow: 0 12px 40px rgba(0,0,0,.45);
+    }
+
+    /* ===== Base ===== */
+    * { box-sizing: border-box; }
     body {
-      font-family: Arial, sans-serif;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       margin: 0;
-      background-color: #f0f0f0;
+      background: radial-gradient(1200px 600px at 80% -10%, rgba(42,108,244,.12), transparent 60%),
+                  radial-gradient(1000px 600px at -10% 10%, rgba(99,102,241,.10), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .wrap {
+      max-width: 960px;
+      margin: 28px auto;
+      padding: 0 16px 56px;
     }
 
-    .tab-container {
+    /* ===== Header ===== */
+    header {
       display: flex;
-      justify-content: center;
-      background-color: #2a6cf4;
-      padding: 15px 0;
-      gap: 20px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .brand img {
+      width: 56px; height: 56px; border-radius: 50%; object-fit: cover;
+      box-shadow: 0 6px 18px rgba(0,0,0,.15);
+    }
+    .title { font-size: 1.6rem; font-weight: 800; letter-spacing: .2px; }
+    .muted { color: var(--muted); font-size: .95rem; }
+
+    /* ===== Card ===== */
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: clip;
+      border: 1px solid rgba(148,163,184,.15);
     }
 
-    .tab-button {
-      background-color: white;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 10px 10px 0 0;
-      cursor: pointer;
-      transition: background 0.3s;
+    /* ===== Tabs (ARIA) ===== */
+    .tabs {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      min-height: 420px;
     }
+    .tablist {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      background: linear-gradient(180deg, rgba(42,108,244,.12), transparent);
+      padding: 14px;
+      border-bottom: 1px solid rgba(148,163,184,.20);
+    }
+    .tab {
+      appearance: none; border: 0; cursor: pointer;
+      background: var(--surface);
+      color: var(--text);
+      padding: 10px 14px; border-radius: 10px;
+      font-weight: 600;
+      transition: transform .15s ease, background .2s ease;
+      box-shadow: 0 2px 8px rgba(2, 8, 23, 0.05);
+    }
+    .tab[aria-selected="true"] { background: var(--primary); color: var(--primary-contrast); }
+    .tab:focus-visible { outline: none; box-shadow: var(--ring); }
+    .tab:hover { transform: translateY(-1px); }
 
-    .tab-button:hover,
-    .tab-button.active {
-      background-color: #e0e0e0;
-    }
+    .tabpanel { display: none; padding: 22px; }
+    .tabpanel[aria-hidden="false"] { display: block; }
 
-    .content {
-      max-width: 800px;
-      margin: auto;
-      background-color: white;
-      padding: 30px;
-      border-radius: 0 0 12px 12px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      min-height: 300px;
+    /* ===== Content bits ===== */
+    .flex { display: flex; gap: 18px; align-items: center; }
+    .btn {
+      appearance: none; border: 0; cursor: pointer; font-weight: 700;
+      background: var(--primary); color: var(--primary-contrast);
+      padding: 10px 14px; border-radius: 10px;
+      box-shadow: 0 6px 16px rgba(42,108,244,.35);
+      transition: transform .15s ease, filter .2s ease;
     }
+    .btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
+    .btn:focus-visible { outline: none; box-shadow: var(--ring); }
 
-    .tab-content {
-      display: none;
-    }
+    .link { color: var(--primary); font-weight: 700; text-decoration: none; }
+    .link:focus-visible { outline: none; box-shadow: var(--ring); border-radius: 6px; }
 
-    .tab-content.active {
-      display: block;
-    }
+    .game-area { display: grid; gap: 12px; max-width: 520px; }
+    .choices { display: flex; flex-wrap: wrap; gap: 10px; }
+    .score { font-weight: 800; }
 
-    img {
-      width: 100px;
-      border-radius: 50%;
-    }
+    iframe { border: 0; width: 100%; max-width: 100%; aspect-ratio: 16/9; border-radius: 12px; }
 
-    a {
-      color: blue;
-    }
+    footer { margin-top: 24px; color: var(--muted); font-size: .9rem; text-align: center; }
   </style>
 </head>
 <body>
-
-  <!-- 🔳 Tabs -->
-  <div class="tab-container">
-    <button class="tab-button active" onclick="openTab('ueber')">🧍 Über mich</button>
-    <button class="tab-button" onclick="openTab('games')">🎮 Mini-Games</button>
-    <button class="tab-button" onclick="openTab('links')">🔗 Links</button>
-  </div>
-
-  <!-- 📦 Inhalte -->
-  <div class="content">
-
-    <!-- Über mich -->
-    <div id="ueber" class="tab-content active">
-      <h2>Über mich</h2>
-      <img src="https://yt3.googleusercontent.com/5j4zseBO0OrjSe51wzVmqQ8jfrpsTFhk_GSuij_Ng9vusIpFr6l7Vi9S_8Klo-yCVRyEOCBKDg=s160-c-k-c0x00ffffff-no-rj" alt="Jenbi">
-      <p>Hallo! Ich bin Jenbi – willkommen auf meiner Website! Hier findet ihr das meiste über mich, also Daten, Links, interresante Fakten, Events, Mini-Games und vieles mehr! 😎</p>
-  	<br/>
-  	Ich komme aus dem guten Niederösterreich und mache, wenn ich überhaupt welche mache, Videos über Roblox, Minecraft und Nintendo.
-  	<br/>
-  	Meine Kollegen sind Fabian, mein Freund real life, und Joel, den ich in einem BrawlStars-Discord kennengelernt hab.
-    </div>
-
-    <!-- Mini-Games -->
-    <div id="games" class="tab-content">
-      <h2>Mini-Games</h2>
-
-      <!-- Spielbereich -->
-      <div id="ssp-game">
-        <h3>🎮 Schere-Stein-Papier</h3>
-        <p>Wähle eine Option:</p>
-        <button onclick="playSSP('Schere')">✌️ Schere</button>
-        <button onclick="playSSP('Stein')">🪨 Stein</button>
-        <button onclick="playSSP('Papier')">📄 Papier</button>
-        <p id="ssp-result"></p>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <img alt="Jenbi Avatar" src="https://yt3.googleusercontent.com/5j4zseBO0OrjSe51wzVmqQ8jfrpsTFhk_GSuij_Ng9vusIpFr6l7Vi9S_8Klo-yCVRyEOCBKDg=s256-c-k-c0x00ffffff-no-rj" />
+        <div>
+          <div class="title">Jen.bi</div>
+          <div class="muted">Roblox • Minecraft • Nintendo • aus NÖ 🦌</div>
+        </div>
       </div>
-    </div>
+      <button id="themeToggle" class="btn" aria-label="Darstellung umschalten">🌓 Theme</button>
+    </header>
 
-    <!-- Links -->
-    <div id="links" class="tab-content">
-      <h2>Links</h2>
-      <p>Hier ist mein YouTube-Kanal:</p>
-      <a href="https://www.youtube.com/@jenbi13" target="_blank">➡️ Jenbi auf YouTube</a>
-      <br/><br/>
-      <p>Beliebtestes Video:</p>
-      <iframe width="100%" height="315" src="https://www.youtube.com/embed/lDBJk9_NfrY?si=6cJZscBPXnm-Akve" frameborder="0" allowfullscreen></iframe>
-    </div>
+    <section class="card tabs" id="tabs">
+      <!-- Tab Buttons -->
+      <div role="tablist" aria-label="Bereiche" class="tablist">
+        <button class="tab" role="tab" id="tab-ueber" aria-controls="panel-ueber" aria-selected="true">🧍 Über mich</button>
+        <button class="tab" role="tab" id="tab-games" aria-controls="panel-games" aria-selected="false">🎮 Mini-Games</button>
+        <button class="tab" role="tab" id="tab-links" aria-controls="panel-links" aria-selected="false">🔗 Links</button>
+      </div>
 
+      <!-- Panels -->
+      <div id="panel-ueber" class="tabpanel" role="tabpanel" aria-labelledby="tab-ueber" aria-hidden="false">
+        <h2>Über mich</h2>
+        <p>Servas! Ich bin <strong>Jenbi</strong> – willkommen auf meiner kleinen, aber feinen Seite. Hier find’sd Mini‑Games, Links und a bissl was über mich. 😎</p>
+        <p>Ich komm’ aus dem schönen <strong>Niederösterreich</strong> und mach (wenn ich brav bin 😉) Videos zu <em>Roblox</em>, <em>Minecraft</em> und <em>Nintendo</em>.</p>
+        <p>Homies: <strong>Fabian</strong> (IRL) und <strong>Joel</strong> (kennengelernt im Brawl Stars‑Discord).</p>
+      </div>
+
+      <div id="panel-games" class="tabpanel" role="tabpanel" aria-labelledby="tab-games" aria-hidden="true">
+        <h2>Mini‑Games</h2>
+        <article class="game-area" aria-labelledby="ssp-title">
+          <h3 id="ssp-title">🎮 Schere‑Stein‑Papier</h3>
+          <p class="muted">Wähle eine Option und schau, ob du den Bot outplayst. Best of luck, Legend! ✨</p>
+          <div class="choices">
+            <button class="btn" data-choice="Schere">✌️ Schere</button>
+            <button class="btn" data-choice="Stein">🪨 Stein</button>
+            <button class="btn" data-choice="Papier">📄 Papier</button>
+            <button class="btn" id="resetScore" title="Score zurücksetzen">🔁 Reset</button>
+          </div>
+          <p id="ssp-result" class="score">—</p>
+          <p class="muted" id="ssp-score" aria-live="polite">Score: 0 🏆 | Wins: 0 | Losses: 0 | Draws: 0</p>
+        </article>
+      </div>
+
+      <div id="panel-links" class="tabpanel" role="tabpanel" aria-labelledby="tab-links" aria-hidden="true">
+        <h2>Links</h2>
+        <p>Mein YouTube‑Kanal:</p>
+        <p>
+          <a class="link" href="https://www.youtube.com/@jenbi13" target="_blank" rel="noopener noreferrer">➡️ Jenbi auf YouTube</a>
+        </p>
+        <p>Beliebtestes Video:</p>
+        <iframe 
+          title="Beliebtestes Video von Jenbi"
+          src="https://www.youtube.com/embed/lDBJk9_NfrY?si=6cJZscBPXnm-Akve" 
+          loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+        </iframe>
+      </div>
+    </section>
+
+    <footer>
+      <p>© <span id="year"></span> Jenbi • Gemacht mit <span aria-label="Liebe" role="img">❤️</span> & ein bissl Schmäh.</p>
+    </footer>
   </div>
 
-  <!-- ⚙️ Tab-Wechsler + Game Script -->
   <script>
-    function openTab(tabId) {
-      const contents = document.querySelectorAll('.tab-content');
-      const buttons = document.querySelectorAll('.tab-button');
+    // ===== Utilities =====
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
 
-      contents.forEach(content => content.classList.remove('active'));
-      buttons.forEach(btn => btn.classList.remove('active'));
-
-      document.getElementById(tabId).classList.add('active');
-      event.target.classList.add('active');
+    // ===== Theme Toggle (persists) =====
+    const themeToggle = $('#themeToggle');
+    const prefKey = 'jenbi.theme';
+    const savedTheme = localStorage.getItem(prefKey);
+    if (savedTheme === 'light' || savedTheme === 'dark') {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    } else {
+      document.documentElement.setAttribute('data-theme', 'auto');
     }
+    themeToggle.addEventListener('click', () => {
+      const cur = document.documentElement.getAttribute('data-theme');
+      const next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem(prefKey, next);
+    });
 
-    function playSSP(playerChoice) {
-      const choices = ['Schere', 'Stein', 'Papier'];
-      const botChoice = choices[Math.floor(Math.random() * 3)];
-      let result = '';
+    // ===== Tabs with ARIA + Keyboard + URL hash =====
+    const tabs = $$('.tab');
+    const panels = $$('.tabpanel');
 
-      if (playerChoice === botChoice) {
-        result = `${playerChoice} vs ${botChoice} ... Unentschieden!`;
-      } else if (
-        (playerChoice === 'Schere' && botChoice === 'Papier') ||
-        (playerChoice === 'Stein' && botChoice === 'Schere') ||
-        (playerChoice === 'Papier' && botChoice === 'Stein')
-      ) {
-        result = `${playerChoice} vs ${botChoice} ... DU HAST GEWONNEN!`;
-      } else {
-        result = `${playerChoice} vs ${botChoice} ... du hast verloren!`;
+    function activateTab(index, pushHash = true) {
+      tabs.forEach((t, i) => {
+        const selected = i === index;
+        t.setAttribute('aria-selected', String(selected));
+        t.tabIndex = selected ? 0 : -1;
+        const panel = $('#' + t.getAttribute('aria-controls'));
+        panel.setAttribute('aria-hidden', String(!selected));
+      });
+      if (pushHash) {
+        const id = tabs[index].id.replace('tab-', '');
+        history.replaceState(null, '', '#' + id);
       }
-
-      document.getElementById('ssp-result').innerText = result;
+      tabs[index].focus({ preventScroll: true });
     }
-  </script>
 
+    // Click handling
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => activateTab(i));
+      tab.addEventListener('keydown', (e) => {
+        const key = e.key;
+        if (key === 'ArrowRight' || key === 'ArrowLeft') {
+          e.preventDefault();
+          const dir = key === 'ArrowRight' ? 1 : -1;
+          let next = (i + dir + tabs.length) % tabs.length;
+          activateTab(next);
+        }
+        if (key === 'Home') { e.preventDefault(); activateTab(0); }
+        if (key === 'End')  { e.preventDefault(); activateTab(tabs.length-1); }
+      });
+    });
+
+    // Load initial tab from hash or default (0)
+    (function initFromHash(){
+      const hash = location.hash.replace('#','');
+      const idx = tabs.findIndex(t => t.id === 'tab-' + hash);
+      activateTab(idx >= 0 ? idx : 0, /*pushHash*/ false);
+    })();
+
+    // ===== SSP Game with persistent score =====
+    const sspKey = 'jenbi.ssp.score';
+    const sspResult = $('#ssp-result');
+    const sspScoreEl = $('#ssp-score');
+    const sspBtns = $$('.choices .btn');
+
+    let score = { total: 0, win: 0, lose: 0, draw: 0 };
+    try {
+      const saved = JSON.parse(localStorage.getItem(sspKey));
+      if (saved && typeof saved === 'object') score = saved;
+    } catch {}
+
+    const choices = ['Schere','Stein','Papier'];
+    const beats = { Schere: 'Papier', Stein: 'Schere', Papier: 'Stein' };
+
+    function updateScoreline() {
+      sspScoreEl.textContent = `Score: ${score.total} 🏆 | Wins: ${score.win} | Losses: ${score.lose} | Draws: ${score.draw}`;
+      localStorage.setItem(sspKey, JSON.stringify(score));
+    }
+    updateScoreline();
+
+    function playSSP(choice) {
+      const bot = choices[Math.floor(Math.random()*3)];
+      let msg;
+      if (choice === bot) {
+        score.draw++; score.total++;
+        msg = `${choice} vs ${bot} … Unentschieden!`;
+      } else if (beats[choice] === bot) {
+        score.win++; score.total++;
+        msg = `${choice} vs ${bot} … DU HAST GEWONNEN!`;
+      } else {
+        score.lose++; score.total++;
+        msg = `${choice} vs ${bot} … Du hast verloren!`;
+      }
+      sspResult.textContent = msg;
+      updateScoreline();
+    }
+
+    $$('.choices [data-choice]').forEach(btn => {
+      btn.addEventListener('click', () => playSSP(btn.dataset.choice));
+    });
+
+    $('#resetScore')?.addEventListener('click', () => {
+      score = { total: 0, win: 0, lose: 0, draw: 0 };
+      updateScoreline();
+      sspResult.textContent = '—';
+    });
+
+    // ===== Footer year =====
+    $('#year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
-
