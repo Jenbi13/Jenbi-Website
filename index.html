@@ -417,12 +417,59 @@
     let quizScore=0, quizIdx=0;
 
     // 👉 Deine Fragenliste (leer gelassen)
-    const QUESTIONS = [];
+    const QUESTIONS = [
+  // Geschichte (5)
+  { q: 'In welchem Jahr fiel die Berliner Mauer?', a: ['1987','1989','1991','1993'], correct: 1 },
+  { q: 'Wer gilt als Erfinder des Buchdrucks mit beweglichen Lettern in Europa?', a: ['Leonardo da Vinci','Johannes Gutenberg','Isaac Newton','Martin Luther'], correct: 1 },
+  { q: 'In welchem Zeitraum fand der Zweite Weltkrieg statt?', a: ['1914–1918','1939–1945','1950–1953','1961–1975'], correct: 1 },
+  { q: 'Welche Sprache war Amtssprache des Römischen Reiches?', a: ['Griechisch','Latein','Aramäisch','Gotisch'], correct: 1 },
+  { q: 'Wer war 1969 der erste Mensch auf dem Mond?', a: ['Buzz Aldrin','Yuri Gagarin','Neil Armstrong','Michael Collins'], correct: 2 },
+
+  // Minecraft (5)
+  { q: 'Wann erschien Minecraft als Vollversion (Java 1.0)?', a: ['2009','2010','2011','2012'], correct: 2 },
+  { q: 'Welches Item droppen Creeper standardmäßig?', a: ['Knochen','Schwarzpulver','Fäden','Schleimball'], correct: 1 },
+  { q: 'Wie viele Obsidian-Blöcke braucht man mindestens für ein Netherportal?', a: ['8','10','12','14'], correct: 1 },
+  { q: 'Welche Villager‑Berufsstation gehört zum Geistlichen (Cleric)?', a: ['Schmiedetisch','Braustand','Webstuhl','Komposter'], correct: 1 },
+  { q: 'Wie hoch ist der maximale Stack von Enderperlen?', a: ['16','32','64','8'], correct: 0 },
+
+  // Geographie (5)
+  { q: 'Hauptstadt von Australien?', a: ['Sydney','Melbourne','Canberra','Perth'], correct: 2 },
+  { q: 'Welches Land ist flächenmäßig am größten?', a: ['Kanada','Russland','China','USA'], correct: 1 },
+  { q: 'Welches ist das kleinste Land der Welt?', a: ['Monaco','San Marino','Vatikanstadt','Liechtenstein'], correct: 2 },
+  { q: 'Welcher Kontinent hat die meisten Staaten?', a: ['Europa','Afrika','Asien','Südamerika'], correct: 1 },
+  { q: 'Hauptstadt von Kanada?', a: ['Toronto','Vancouver','Ottawa','Montreal'], correct: 2 },
+
+  // Nintendo / Mario Odyssey (5)
+  { q: 'In welchem Jahr erschien Super Mario Odyssey?', a: ['2015','2016','2017','2018'], correct: 2 },
+  { q: 'Wie heißt Marios Hut‑Begleiter in Odyssey?', a: ['Toad','Cappy','Luma','Pauline'], correct: 1 },
+  { q: 'Wie heißen die Haupt‑Sammelobjekte in Odyssey?', a: ['Power‑Sterne','Power‑Monde','Shines','Wundersaaten'], correct: 1 },
+  { q: 'In welchem Königreich trifft man früh einen T‑Rex?', a: ['Wooded','Sand','Cascade','Metro'], correct: 2 },
+  { q: 'Welche Währung gibt es zusätzlich zu Goldmünzen pro Königreich?', a: ['Violetten Regionalmünzen','Rote Sterne','Blaue Rubine','Silberne Ringe'], correct: 0 },
+];
+
+function pickRandom(arr, n){
+  const copy = arr.slice();
+  for (let i = copy.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [copy[i], copy[j]] = [copy[j], copy[i]]; }
+  return copy.slice(0, n);
+}
+let QUIZ = pickRandom(QUESTIONS, 5);
 
     const savedQuizBest = Number(localStorage.getItem(quizKey)||0); quizBestEl.textContent = savedQuizBest;
 
     function renderQuestion(){
-      if (quizIdx >= QUESTIONS.length) { return finishQuiz(); }
+  if (quizIdx >= QUIZ.length) { return finishQuiz(); }
+  const {q, a, correct} = QUIZ[quizIdx];
+  quizBox.innerHTML = '';
+  const h = document.createElement('p'); h.textContent = q; quizBox.appendChild(h);
+  a.forEach((txt, i)=>{
+    const b = document.createElement('button'); b.className='btn'; b.style.marginRight='8px'; b.textContent = txt;
+    b.addEventListener('click', ()=>{
+      if (i===correct) { quizScore++; quizScoreEl.textContent = quizScore; }
+      quizIdx++; renderQuestion();
+    });
+    quizBox.appendChild(b);
+  });
+}
       const {q, a, correct} = QUESTIONS[quizIdx];
       quizBox.innerHTML = '';
       const h = document.createElement('p'); h.textContent = q; quizBox.appendChild(h);
@@ -436,16 +483,23 @@
       });
     }
     function finishQuiz(){
-      quizBox.innerHTML = `Fertig. Punkte: ${quizScore}/${QUESTIONS.length}`;
+  quizBox.innerHTML = `Fertig. Punkte: ${quizScore}/${QUIZ.length}`;
+  if (quizScore > savedQuizBest) { localStorage.setItem(quizKey, String(quizScore)); quizBestEl.textContent = quizScore; }
+}/${QUESTIONS.length}`;
       if (quizScore > savedQuizBest) { localStorage.setItem(quizKey, String(quizScore)); quizBestEl.textContent = quizScore; }
     }
     function updateQuizAvailability(){
-      if (QUESTIONS.length === 0) { quizStart.disabled = true; quizBox.innerHTML = ''; }
+  quizStart.disabled = QUESTIONS.length < 5;
+}
       else { quizStart.disabled = false; }
     }
     updateQuizAvailability();
 
-    quizStart.addEventListener('click', ()=>{ quizScore=0; quizIdx=0; quizScoreEl.textContent='0'; renderQuestion(); });
+    quizStart.addEventListener('click', ()=>{
+  QUIZ = pickRandom(QUESTIONS, 5);
+  quizScore = 0; quizIdx = 0; quizScoreEl.textContent = '0';
+  renderQuestion();
+}); });
     $('#quiz-reset').addEventListener('click', ()=>{ localStorage.removeItem(quizKey); quizBestEl.textContent='0'; });
 
     // ===== Konami Code → Rickroll =====
