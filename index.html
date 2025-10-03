@@ -62,17 +62,30 @@
     }
     .wrap { max-width: 960px; margin: 28px auto; padding: 0 16px 56px; }
 
-    header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; margin-bottom: 14px;
+    }
     .brand { display: flex; align-items: center; gap: 12px; }
-    .brand img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; box-shadow: 0 6px 18px rgba(0,0,0,.15); }
+    .brand img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover;
+      box-shadow: 0 6px 18px rgba(0,0,0,.15);
+    }
     .title { font-size: 1.6rem; font-weight: 800; letter-spacing: .2px; }
     .muted { color: var(--muted); font-size: .95rem; }
 
-    .card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); overflow: clip; border: 1px solid rgba(148,163,184,.15); }
+    .card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow);
+      overflow: clip; border: 1px solid rgba(148,163,184,.15);
+    }
 
     .tabs { display: grid; grid-template-rows: auto 1fr; min-height: 420px; }
-    .tablist { display: flex; flex-wrap: wrap; gap: 8px; background: linear-gradient(180deg, rgba(42,108,244,.12), transparent); padding: 14px; border-bottom: 1px solid rgba(148,163,184,.20); }
-    .tab { appearance: none; border: 0; cursor: pointer; background: var(--surface); color: var(--text); padding: 10px 14px; border-radius: 10px; font-weight: 600; transition: transform .15s ease, background .2s ease; box-shadow: 0 2px 8px rgba(2, 8, 23, 0.05); }
+    .tablist { display: flex; flex-wrap: wrap; gap: 8px;
+      background: linear-gradient(180deg, rgba(42,108,244,.12), transparent);
+      padding: 14px; border-bottom: 1px solid rgba(148,163,184,.20);
+    }
+    .tab { appearance: none; border: 0; cursor: pointer; background: var(--surface); color: var(--text);
+      padding: 10px 14px; border-radius: 10px; font-weight: 600;
+      transition: transform .15s ease, background .2s ease; box-shadow: 0 2px 8px rgba(2, 8, 23, 0.05);
+    }
     .tab[aria-selected="true"] { background: var(--primary); color: var(--primary-contrast); }
     .tab:focus-visible { outline: none; box-shadow: var(--ring); }
     .tab:hover { transform: translateY(-1px); }
@@ -80,7 +93,10 @@
     .tabpanel { display: none; padding: 22px; }
     .tabpanel[aria-hidden="false"] { display: block; }
 
-    .btn { appearance: none; border: 0; cursor: pointer; font-weight: 700; background: var(--primary); color: var(--primary-contrast); padding: 10px 14px; border-radius: 10px; box-shadow: 0 6px 16px rgba(42,108,244,.35); transition: transform .15s ease, filter .2s ease; }
+    .btn { appearance: none; border: 0; cursor: pointer; font-weight: 700; background: var(--primary); color: var(--primary-contrast);
+      padding: 10px 14px; border-radius: 10px; box-shadow: 0 6px 16px rgba(42,108,244,.35);
+      transition: transform .15s ease, filter .2s ease;
+    }
     .btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
     .btn:focus-visible { outline: none; box-shadow: var(--ring); }
 
@@ -95,7 +111,7 @@
 
     footer { margin-top: 24px; color: var(--muted); font-size: .9rem; text-align: center; }
 
-    /* === Fun Hover: Wackel-Anfall === */
+    /* Hover-Wackler */
     @keyframes wiggle {
       0%, 100% { transform: rotate(0deg); }
       15% { transform: rotate(-6deg); }
@@ -109,24 +125,31 @@
       .btn:hover, .link:hover { animation: wiggle .6s ease both; }
     }
 
-    /* Reaction Timer styles */
+    /* Dropdowns */
+    details.game { border: 1px solid rgba(148,163,184,.25); border-radius: 12px; padding: 12px 14px; margin: 14px 0;
+      background: var(--surface); box-shadow: var(--shadow);
+    }
+    details.game > summary { list-style: none; cursor: pointer; font-weight: 800; }
+    details.game > summary::-webkit-details-marker { display: none; }
+    details.game[open] { border-color: rgba(42,108,244,.35); }
+
+    /* Reaction Timer */
     .rt-box { width: 100%; max-width: 520px; border: 1px dashed rgba(148,163,184,.5); border-radius: 12px; padding: 16px; text-align: center; }
     .rt-pad { margin-top: 10px; padding: 26px; border-radius: 12px; user-select: none; cursor: pointer; }
     .rt-wait { background: #f8fafc; color: #475569; }
     .rt-ready { background: #ef4444; color: #fff; }
     .rt-go { background: #22c55e; color: #0b1220; }
 
-    /* Snake styles */
+    /* Snake */
     .snake-wrap { display: grid; gap: 10px; align-items: start; }
-    #snakeCanvas { background: #0b1220; border: 1px solid rgba(148,163,184,.4); border-radius: 8px; width: 400px; height: 400px; image-rendering: pixelated; }
+    #snakeCanvas { background: #0b1220; border: 1px solid rgba(148,163,184,.4); border-radius: 8px;
+      width: 400px; height: 400px; image-rendering: pixelated;
+    }
     .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
     .stat { font-weight: 800; }
 
-    /* Dropdown (details) */
-    details.game { border: 1px solid rgba(148,163,184,.25); border-radius: 12px; padding: 12px 14px; margin: 14px 0; background: var(--surface); box-shadow: var(--shadow); }
-    details.game > summary { list-style: none; cursor: pointer; font-weight: 800; }
-    details.game > summary::-webkit-details-marker { display: none; }
-    details.game[open] { border-color: rgba(42,108,244,.35); }
+    /* (Optional) FlyIn (falls du's später wieder nutzt) */
+    @keyframes flyIn { to { opacity: 1; transform: translateX(0);} }
   </style>
 </head>
 <body>
@@ -152,24 +175,17 @@
       <!-- Über mich -->
       <div id="panel-ueber" class="tabpanel" role="tabpanel" aria-labelledby="tab-ueber" aria-hidden="false">
         <h2>Über mich</h2>
-        <p>Servas! Ich bin <strong>Jenbi</strong> – willkommen auf meiner kleinen, aber feinen Seite. Hier find’sd Mini‑Games, Links und a bissl was über mich. 😎</p>
+        <p>Servas! Ich bin <strong>Jenbi</strong> – willkommen auf meiner kleinen, aber feinen Seite. Hier find’sd Mini-Games, Links und a bissl was über mich. 😎</p>
         <p>Ich komm’ aus dem schönen <strong>Niederösterreich</strong> und mach (wenn ich brav bin 😉) Videos zu <em>Roblox</em>, <em>Minecraft</em> und <em>Nintendo</em>.</p>
-        <p>
-          Homies:
-          <strong>Fabian</strong> (IRL),
-          <strong>Joel</strong> (kennengelernt im Brawl Stars‑Discord),
-          <strong>zLequit</strong> (kenn ich schon seit Jahren – kennengelernt durch YTer RunningStarJonas),
-          hilft mir oft, wenn ich Probleme hab, auch geiler YTer 👉 <em>auch abonnieren auf süß!</em>
-        </p>
+        <p>Homies: <strong>Fabian</strong> (IRL), <strong>Joel</strong> (Brawl Stars-Discord), <strong>zLequit</strong> (seit Jahren; über RunningStarJonas; geiler YTer – <em>auch abonnieren auf süß!</em>)</p>
       </div>
 
       <!-- Mini-Games -->
       <div id="panel-games" class="tabpanel" role="tabpanel" aria-labelledby="tab-games" aria-hidden="true">
-        <h2>Mini‑Games</h2>
+        <h2>Mini-Games</h2>
 
-        <!-- SSP in Dropdown -->
         <details class="game" id="dd-ssp">
-          <summary>✂️🪨📄 Schere‑Stein‑Papier</summary>
+          <summary>✂️🪨📄 Schere-Stein-Papier</summary>
           <article class="game-area" aria-labelledby="ssp-title">
             <h3 id="ssp-title" class="muted">—</h3>
             <div class="choices">
@@ -179,16 +195,15 @@
               <button class="btn" id="resetScore" title="Score zurücksetzen">🔁 Reset</button>
             </div>
             <p id="ssp-result" class="score">—</p>
-            <p class="muted" id="ssp-score" aria-live="polite">Score: 0 🏆 | Wins: 0 | Losses: 0 | Draws: 0</p>
+            <p class="muted" id="ssp-score" aria-live="polite">Score: 0 🏆 | Wins: 0 | Losses: 0 | Draws: 0</p>
           </article>
         </details>
 
-        <!-- Reaction Timer in Dropdown -->
         <details class="game" id="dd-rt">
           <summary>⚡ Reaction Timer</summary>
           <article class="rt-box" aria-labelledby="rt-title">
             <h3 id="rt-title" class="muted">—</h3>
-            <div id="rt-pad" class="rt-pad rt-wait">Klicken zum Starten …</div>
+            <div id="rt-pad" class="rt-pad rt-wait">Klick zum Starten …</div>
             <div class="row">
               <div class="stat">Letzte Zeit: <span id="rt-last">–</span> ms</div>
               <div class="stat">Best: <span id="rt-best">–</span> ms</div>
@@ -197,7 +212,6 @@
           </article>
         </details>
 
-        <!-- Snake in Dropdown -->
         <details class="game" id="dd-snake">
           <summary>🐍 Snake</summary>
           <article class="snake-wrap" aria-labelledby="snake-title">
@@ -214,7 +228,6 @@
           </article>
         </details>
 
-        <!-- Trivia in Dropdown -->
         <details class="game" id="dd-quiz">
           <summary>🧠 Trivia Quiz</summary>
           <article class="game-area" aria-labelledby="quiz-title">
@@ -234,7 +247,7 @@
       <!-- Links -->
       <div id="panel-links" class="tabpanel" role="tabpanel" aria-labelledby="tab-links" aria-hidden="true">
         <h2>Links</h2>
-        <p>Mein YouTube‑Kanal:</p>
+        <p>Mein YouTube-Kanal:</p>
         <p>
           <a class="link" href="https://www.youtube.com/@jenbi13" target="_blank" rel="noopener noreferrer">➡️ Jenbi auf YouTube</a>
         </p>
@@ -308,7 +321,7 @@
       activateTab(idx >= 0 ? idx : 0, false);
     })();
 
-    // ===== SSP Game =====
+    // ===== SSP =====
     const sspKey = 'jenbi.ssp.score';
     const sspResult = $('#ssp-result');
     const sspScoreEl = $('#ssp-score');
@@ -347,178 +360,4 @@
       const delay = 700 + Math.random()*2300;
       rtTimeout = setTimeout(()=>{ rtState = 'go'; rtStartTime = performance.now(); setPad('rt-go','JETZT!'); }, delay);
     }
-    rtPad.addEventListener('click', () => {
-      if (rtState === 'idle') {
-        armReaction();
-      } else if (rtState === 'ready') {
-        clearTimeout(rtTimeout); rtState = 'idle'; setPad('rt-wait','Zu früh! Klick zum Neustart …');
-      } else if (rtState === 'go') {
-        const t = Math.round(performance.now() - rtStartTime);
-        rtLast.textContent = t; setPad('rt-wait','Klick zum Starten …'); rtState = 'idle';
-        const best = Number(rtBest.textContent) || Infinity; if (t < best) { rtBest.textContent = t; localStorage.setItem(rtKey, String(t)); }
-      }
-    });
-    rtReset.addEventListener('click', () => { localStorage.removeItem(rtKey); rtBest.textContent = '–'; });
-
-    // ===== Snake =====
-    const cvs = $('#snakeCanvas');
-    const ctx = cvs.getContext('2d');
-    const size = 20; // 20x20 grid
-    let snake, dir, food, tick, speed, snakeScore=0, snakeBest=Number(localStorage.getItem('jenbi.snake.best')||0);
-    const scoreEl = $('#snake-score'); const bestEl = $('#snake-best'); bestEl.textContent = snakeBest;
-    function resetSnake(){
-      snake = [{x:10,y:10}]; dir = {x:1,y:0}; food = spawnFood(); speed = 120; snakeScore = 0; scoreEl.textContent = '0';
-      drawSnake();
-    }
-    function spawnFood(){
-      let f; do { f = {x: Math.floor(Math.random()* (cvs.width/size)), y: Math.floor(Math.random()* (cvs.height/size))}; }
-      while (snake.some(s => s.x===f.x && s.y===f.y));
-      return f;
-    }
-    function drawSnake(){
-      ctx.clearRect(0,0,cvs.width,cvs.height);
-      // food
-      ctx.fillStyle = '#ef4444'; ctx.fillRect(food.x*size, food.y*size, size, size);
-      // snake
-      ctx.fillStyle = '#22c55e'; snake.forEach(p => ctx.fillRect(p.x*size, p.y*size, size, size));
-    }
-    function step(){
-      const head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
-      if (head.x<0 || head.y<0 || head.x>=cvs.width/size || head.y>=cvs.height/size) { return gameOver(); }
-      if (snake.some(s => s.x===head.x && s.y===head.y)) { return gameOver(); }
-      snake.unshift(head);
-      if (head.x===food.x && head.y===food.y){
-        snakeScore++; scoreEl.textContent = String(snakeScore);
-        if (snakeScore>snakeBest){ snakeBest=snakeScore; bestEl.textContent=snakeBest; localStorage.setItem('jenbi.snake.best', String(snakeBest)); }
-        food = spawnFood(); if (speed>60) { speed -= 2; clearInterval(tick); tick=setInterval(step, speed); }
-      } else { snake.pop(); }
-      drawSnake();
-    }
-    function gameOver(){ clearInterval(tick); alert('💀 Game Over! Score: '+snakeScore); }
-    function startSnake(){ clearInterval(tick); tick=setInterval(step, speed); }
-    $('#snake-start').addEventListener('click', startSnake);
-    $('#snake-pause').addEventListener('click', () => clearInterval(tick));
-    $('#snake-reset').addEventListener('click', () => { resetSnake(); });
-    window.addEventListener('keydown', (e)=>{
-      const k=e.key.toLowerCase();
-      if (k==='arrowup'||k==='w'){ if(dir.y!==1){dir={x:0,y:-1};} }
-      if (k==='arrowdown'||k==='s'){ if(dir.y!==-1){dir={x:0,y:1};} }
-      if (k==='arrowleft'||k==='a'){ if(dir.x!==1){dir={x:-1,y:0};} }
-      if (k==='arrowright'||k==='d'){ if(dir.x!==-1){dir={x:1,y:0};} }
-    });
-    resetSnake();
-
-    // ===== Trivia (no placeholders) =====
-    const quizBox = $('#quiz-box');
-    const quizStart = $('#quiz-start');
-    const quizScoreEl = $('#quiz-score');
-    const quizBestEl = $('#quiz-best');
-    const quizKey = 'jenbi.quiz.best';
-    let quizScore=0, quizIdx=0;
-
-    // 👉 Deine Fragenliste (leer gelassen)
-    const QUESTIONS = [
-  // Geschichte (5)
-  { q: 'In welchem Jahr fiel die Berliner Mauer?', a: ['1987','1989','1991','1993'], correct: 1 },
-  { q: 'Wer gilt als Erfinder des Buchdrucks mit beweglichen Lettern in Europa?', a: ['Leonardo da Vinci','Johannes Gutenberg','Isaac Newton','Martin Luther'], correct: 1 },
-  { q: 'In welchem Zeitraum fand der Zweite Weltkrieg statt?', a: ['1914–1918','1939–1945','1950–1953','1961–1975'], correct: 1 },
-  { q: 'Welche Sprache war Amtssprache des Römischen Reiches?', a: ['Griechisch','Latein','Aramäisch','Gotisch'], correct: 1 },
-  { q: 'Wer war 1969 der erste Mensch auf dem Mond?', a: ['Buzz Aldrin','Yuri Gagarin','Neil Armstrong','Michael Collins'], correct: 2 },
-
-  // Minecraft (5)
-  { q: 'Wann erschien Minecraft als Vollversion (Java 1.0)?', a: ['2009','2010','2011','2012'], correct: 2 },
-  { q: 'Welches Item droppen Creeper standardmäßig?', a: ['Knochen','Schwarzpulver','Fäden','Schleimball'], correct: 1 },
-  { q: 'Wie viele Obsidian-Blöcke braucht man mindestens für ein Netherportal?', a: ['8','10','12','14'], correct: 1 },
-  { q: 'Welche Villager‑Berufsstation gehört zum Geistlichen (Cleric)?', a: ['Schmiedetisch','Braustand','Webstuhl','Komposter'], correct: 1 },
-  { q: 'Wie hoch ist der maximale Stack von Enderperlen?', a: ['16','32','64','8'], correct: 0 },
-
-  // Geographie (5)
-  { q: 'Hauptstadt von Australien?', a: ['Sydney','Melbourne','Canberra','Perth'], correct: 2 },
-  { q: 'Welches Land ist flächenmäßig am größten?', a: ['Kanada','Russland','China','USA'], correct: 1 },
-  { q: 'Welches ist das kleinste Land der Welt?', a: ['Monaco','San Marino','Vatikanstadt','Liechtenstein'], correct: 2 },
-  { q: 'Welcher Kontinent hat die meisten Staaten?', a: ['Europa','Afrika','Asien','Südamerika'], correct: 1 },
-  { q: 'Hauptstadt von Kanada?', a: ['Toronto','Vancouver','Ottawa','Montreal'], correct: 2 },
-
-  // Nintendo / Mario Odyssey (5)
-  { q: 'In welchem Jahr erschien Super Mario Odyssey?', a: ['2015','2016','2017','2018'], correct: 2 },
-  { q: 'Wie heißt Marios Hut‑Begleiter in Odyssey?', a: ['Toad','Cappy','Luma','Pauline'], correct: 1 },
-  { q: 'Wie heißen die Haupt‑Sammelobjekte in Odyssey?', a: ['Power‑Sterne','Power‑Monde','Shines','Wundersaaten'], correct: 1 },
-  { q: 'In welchem Königreich trifft man früh einen T‑Rex?', a: ['Wooded','Sand','Cascade','Metro'], correct: 2 },
-  { q: 'Welche Währung gibt es zusätzlich zu Goldmünzen pro Königreich?', a: ['Violetten Regionalmünzen','Rote Sterne','Blaue Rubine','Silberne Ringe'], correct: 0 },
-];
-
-function pickRandom(arr, n){
-  const copy = arr.slice();
-  for (let i = copy.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [copy[i], copy[j]] = [copy[j], copy[i]]; }
-  return copy.slice(0, n);
-}
-let QUIZ = pickRandom(QUESTIONS, 5);
-
-    const savedQuizBest = Number(localStorage.getItem(quizKey)||0); quizBestEl.textContent = savedQuizBest;
-
-    function renderQuestion(){
-  if (quizIdx >= QUIZ.length) { return finishQuiz(); }
-  const {q, a, correct} = QUIZ[quizIdx];
-  quizBox.innerHTML = '';
-  const h = document.createElement('p'); h.textContent = q; quizBox.appendChild(h);
-  a.forEach((txt, i)=>{
-    const b = document.createElement('button'); b.className='btn'; b.style.marginRight='8px'; b.textContent = txt;
-    b.addEventListener('click', ()=>{
-      if (i===correct) { quizScore++; quizScoreEl.textContent = quizScore; }
-      quizIdx++; renderQuestion();
-    });
-    quizBox.appendChild(b);
-  });
-}
-      const {q, a, correct} = QUESTIONS[quizIdx];
-      quizBox.innerHTML = '';
-      const h = document.createElement('p'); h.textContent = q; quizBox.appendChild(h);
-      a.forEach((txt, i)=>{
-        const b = document.createElement('button'); b.className='btn'; b.style.marginRight='8px'; b.textContent = txt;
-        b.addEventListener('click', ()=>{
-          if (i===correct) { quizScore++; quizScoreEl.textContent = quizScore; }
-          quizIdx++; renderQuestion();
-        });
-        quizBox.appendChild(b);
-      });
-    }
-    function finishQuiz(){
-  quizBox.innerHTML = `Fertig. Punkte: ${quizScore}/${QUIZ.length}`;
-  if (quizScore > savedQuizBest) { localStorage.setItem(quizKey, String(quizScore)); quizBestEl.textContent = quizScore; }
-}/${QUESTIONS.length}`;
-      if (quizScore > savedQuizBest) { localStorage.setItem(quizKey, String(quizScore)); quizBestEl.textContent = quizScore; }
-    }
-    function updateQuizAvailability(){
-  quizStart.disabled = QUESTIONS.length < 5;
-}
-      else { quizStart.disabled = false; }
-    }
-    updateQuizAvailability();
-
-    quizStart.addEventListener('click', ()=>{
-  QUIZ = pickRandom(QUESTIONS, 5);
-  quizScore = 0; quizIdx = 0; quizScoreEl.textContent = '0';
-  renderQuestion();
-}); });
-    $('#quiz-reset').addEventListener('click', ()=>{ localStorage.removeItem(quizKey); quizBestEl.textContent='0'; });
-
-    // ===== Konami Code → Rickroll =====
-    const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-    let buffer = [];
-    window.addEventListener('keydown', (e)=>{
-      const key = e.key.length===1 ? e.key.toLowerCase() : e.key; // b/a in lowercase
-      buffer.push(key);
-      if (buffer.length > KONAMI.length) buffer.shift();
-      const match = KONAMI.every((k, i) => buffer[i] === k);
-      if (match) {
-        buffer = [];
-        window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
-        alert('Never gonna give you up 🎶');
-      }
-    });
-
-    // Footer year
-    $('#year').textContent = new Date().getFullYear();
-  </script>
-</body>
-</html>
+   
