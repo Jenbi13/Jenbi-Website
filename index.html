@@ -8,45 +8,63 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🎮</text></svg>">
   <style>
     :root {
-      --bg:#f6f7fb;--surface:#fff;--text:#0f172a;--muted:#475569;
-      --primary:#2a6cf4;--primary-contrast:#fff;--ring:0 0 0 3px rgba(42,108,244,.35);
-      --radius:14px;--shadow:0 10px 30px rgba(2,8,23,.08);
+      --bg: #f6f7fb; --surface: #ffffff; --text: #0f172a; --muted: #475569;
+      --primary: #2a6cf4; --primary-contrast: #ffffff;
+      --ring: 0 0 0 3px rgba(42,108,244,.35);
+      --radius: 14px; --shadow: 0 10px 30px rgba(2, 8, 23, 0.08);
     }
     @media (prefers-color-scheme: dark) {
-      :root {
-        --bg:#0b1220;--surface:#0f172a;--text:#e5e7eb;--muted:#94a3b8;
-        --primary:#60a5fa;--primary-contrast:#0b1220;--shadow:0 12px 40px rgba(0,0,0,.45);
-      }
+      :root { --bg:#0b1220; --surface:#0f172a; --text:#e5e7eb; --muted:#94a3b8;
+              --primary:#60a5fa; --primary-contrast:#0b1220;
+              --shadow:0 12px 40px rgba(0,0,0,.45); }
     }
-    html[data-theme="light"]{--bg:#f6f7fb;--surface:#fff;--text:#0f172a;--muted:#475569;--primary:#2a6cf4;--primary-contrast:#fff;}
-    html[data-theme="dark"]{--bg:#0b1220;--surface:#0f172a;--text:#e5e7eb;--muted:#94a3b8;--primary:#60a5fa;--primary-contrast:#0b1220;}
-    *{box-sizing:border-box}
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;color:var(--text);
-      background:radial-gradient(1200px 600px at 80% -10%,rgba(42,108,244,.12),transparent 60%),
-      radial-gradient(1000px 600px at -10% 10%,rgba(99,102,241,.10),transparent 55%),var(--bg);
-      line-height:1.6;}
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(1200px 600px at 80% -10%, rgba(42,108,244,.12), transparent 60%),
+        radial-gradient(1000px 600px at -10% 10%, rgba(99,102,241,.10), transparent 55%),
+        var(--bg);
+      color:var(--text); line-height:1.6;
+    }
+
     .wrap{max-width:960px;margin:28px auto;padding:0 16px 56px}
     header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
     .brand{display:flex;align-items:center;gap:12px}
     .brand img{width:56px;height:56px;border-radius:50%;object-fit:cover;box-shadow:0 6px 18px rgba(0,0,0,.15)}
-    .title{font-size:1.6rem;font-weight:800}
+    .title{font-size:1.6rem;font-weight:800;letter-spacing:.2px}
     .muted{color:var(--muted);font-size:.95rem}
-    .card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);overflow:clip;border:1px solid rgba(148,163,184,.15)}
-    .tablist{display:flex;gap:8px;background:linear-gradient(180deg,rgba(42,108,244,.12),transparent);padding:14px;border-bottom:1px solid rgba(148,163,184,.20)}
-    .tab{border:0;cursor:pointer;background:var(--surface);color:var(--text);padding:10px 14px;border-radius:10px;font-weight:600;transition:.15s;box-shadow:0 2px 8px rgba(2,8,23,.05)}
+    .version{font-size:.9rem;color:var(--muted);}
+
+    .settings-wrap{position:relative}
+    .settings-menu{
+      position:absolute;top:120%;right:0;background:var(--surface);
+      border-radius:12px;box-shadow:var(--shadow);
+      border:1px solid rgba(148,163,184,.25);
+      padding:10px;display:none;z-index:10;min-width:160px;
+    }
+    .settings-menu.show{display:block;}
+    .settings-menu label{display:block;font-weight:700;margin-bottom:4px}
+    .settings-menu select{width:100%;padding:6px;border-radius:8px;border:1px solid rgba(148,163,184,.3);background:var(--surface);color:var(--text)}
+
+    .tabs{display:grid;grid-template-rows:auto 1fr;min-height:420px}
+    .tablist{display:flex;gap:8px;background:linear-gradient(180deg, rgba(42,108,244,.12), transparent);padding:14px;border-bottom:1px solid rgba(148,163,184,.20)}
+    .tab{appearance:none;border:0;cursor:pointer;background:var(--surface);color:var(--text);padding:10px 14px;border-radius:10px;font-weight:600;transition:transform .15s ease, background .2s ease;box-shadow:0 2px 8px rgba(2,8,23,.05)}
     .tab[aria-selected="true"]{background:var(--primary);color:var(--primary-contrast)}
     .tabpanel{display:none;padding:22px}
     .tabpanel[aria-hidden="false"]{display:block}
-    .btn{border:0;cursor:pointer;font-weight:700;background:var(--primary);color:var(--primary-contrast);padding:10px 14px;border-radius:10px;box-shadow:0 6px 16px rgba(42,108,244,.35);transition:.15s}
+
+    .btn{appearance:none;border:0;cursor:pointer;font-weight:700;background:var(--primary);color:var(--primary-contrast);padding:10px 14px;border-radius:10px;box-shadow:0 6px 16px rgba(42,108,244,.35);transition:transform .15s ease, filter .2s ease}
     .btn:hover{transform:translateY(-1px);filter:brightness(1.05)}
-    .link{color:var(--primary);font-weight:700;text-decoration:none}
+
     details.game{border:1px solid rgba(148,163,184,.25);border-radius:12px;padding:12px 14px;margin:14px 0;background:var(--surface);box-shadow:var(--shadow)}
     details.game>summary{list-style:none;cursor:pointer;font-weight:800}
-    .snake-overlay{position:absolute;inset:0;display:grid;place-items:center;background:rgba(15,23,42,.45);color:#fff;font-weight:900;font-size:1.22rem;border-radius:8px;text-align:center;backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .15s}
-    .snake-overlay.show{opacity:1;pointer-events:auto}
-    #joel-img{display:none;max-width:200px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.4);margin-top:10px;opacity:0;transition:opacity .3s}
-    #joel-img.show{display:block;opacity:1}
+    details.game[open]{border-color:rgba(42,108,244,.35)}
+
     footer{margin-top:24px;color:var(--muted);font-size:.9rem;text-align:center}
+    .snake-overlay{position:absolute;inset:0;display:grid;place-items:center;background:rgba(15,23,42,.45);color:#fff;font-weight:900;font-size:1.2rem;border-radius:8px;text-align:center;opacity:0;pointer-events:none;transition:.2s}
+    .snake-overlay.show{opacity:1;pointer-events:auto}
   </style>
 </head>
 <body>
@@ -54,149 +72,155 @@
     <header>
       <div class="brand">
         <img alt="Jenbi Avatar" src="https://yt3.googleusercontent.com/5j4zseBO0OrjSe51wzVmqQ8jfrpsTFhk_GSuij_Ng9vusIpFr6l7Vi9S_8Klo-yCVRyEOCBKDg=s256-c-k-c0x00ffffff-no-rj" />
-        <div><div class="title">Jenbi</div><div class="muted">Roblox • Minecraft • Nintendo • aus NÖ 🦌</div></div>
+        <div>
+          <div class="title">Jenbi</div>
+          <div class="muted">Roblox • Minecraft • Nintendo • aus NÖ 🦌</div>
+        </div>
       </div>
-      <button id="themeToggle" class="btn">🌓 Theme</button>
+      <div class="settings-wrap">
+        <button id="settingsBtn" class="btn">⚙️</button>
+        <div id="settingsMenu" class="settings-menu">
+          <label for="themeSelect">Theme:</label>
+          <select id="themeSelect">
+            <option value="auto">Auto</option>
+            <option value="light">Hell</option>
+            <option value="dark">Dunkel</option>
+          </select>
+          <label for="langSelect">Sprache:</label>
+          <select id="langSelect">
+            <option value="de">Deutsch</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+        <span class="version">v3.0.0_pre6</span>
+      </div>
     </header>
 
-    <section class="card tabs">
+    <section class="card tabs" id="tabs">
       <div role="tablist" class="tablist">
-        <button class="tab" id="tab-ueber" aria-controls="panel-ueber" aria-selected="true">🧍 Über mich</button>
-        <button class="tab" id="tab-games" aria-controls="panel-games" aria-selected="false">🎮 Mini-Games</button>
-        <button class="tab" id="tab-links" aria-controls="panel-links" aria-selected="false">🔗 Links</button>
+        <button class="tab" role="tab" id="tab-ueber" aria-controls="ueber" aria-selected="true">🧍 Über</button>
+        <button class="tab" role="tab" id="tab-games" aria-controls="games" aria-selected="false">🎮 Games</button>
+        <button class="tab" role="tab" id="tab-links" aria-controls="links" aria-selected="false">🔗 Links</button>
       </div>
 
-      <div id="panel-ueber" class="tabpanel" aria-hidden="false">
+      <div id="ueber" class="tabpanel" aria-hidden="false">
         <h2>Über mich</h2>
-        <p>Servas! Ich bin <strong>Jenbi</strong> – willkommen auf meiner kleinen, aber feinen Seite. 😎</p>
+        <p>Servas! Ich bin <strong>Jenbi</strong> – willkommen auf meiner kleinen, aber feinen Seite. Hier find’sd Mini-Games, Links und a bissl was über mich. 😎</p>
         <p>Ich komm’ aus dem schönen <strong>Niederösterreich</strong> und mach Videos zu <em>Roblox</em>, <em>Minecraft</em> und <em>Nintendo</em>.</p>
-        <p>Homies: <strong>Fabian</strong> (IRL), <strong id="joel">Joel</strong> (Brawl Stars-Discord), <strong>zLequit</strong> (seit Jahren – <em>abonnieren auf süß!</em>)</p>
-        <img id="joel-img" src="Joel_Bild.png" alt="Joel Bild">
+        <p>Homies: <strong>Fabian</strong> (IRL), <strong id="joel">Joel</strong> (Brawl Stars-Discord), <strong>zLequit</strong> (kenn ich seit 2019 – <em>abonnieren auf süß!</em>)</p>
+        <img id="joel-img" src="Joel_Bild.png" alt="Joel" style="display:none;max-width:200px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.4);margin-top:10px">
       </div>
 
-      <div id="panel-games" class="tabpanel" aria-hidden="true">
+      <div id="games" class="tabpanel" aria-hidden="true">
         <h2>Mini-Games</h2>
-        <details class="game" id="dd-ssp">
-          <summary>✂️🪨📄 Schere-Stein-Papier</summary>
-          <div class="choices">
-            <button class="btn" data-choice="Schere">✌️ Schere</button>
-            <button class="btn" data-choice="Stein">🪨 Stein</button>
-            <button class="btn" data-choice="Papier">📄 Papier</button>
-            <button class="btn" id="resetScore">🔁 Reset</button>
-          </div>
-          <p id="ssp-result" class="score">—</p>
-          <p class="muted" id="ssp-score">Score: 0 🏆</p>
-        </details>
-
-        <details class="game" id="dd-rt">
+        <details class="game">
           <summary>⚡ Reaction Timer</summary>
-          <div class="rt-box">
-            <div id="rt-pad" class="btn" style="width:100%">Klick zum Starten …</div>
-            <div>Letzte Zeit: <span id="rt-last">–</span> ms | Best: <span id="rt-best">–</span> ms</div>
-          </div>
+          <div id="rt-pad" class="rt-pad rt-wait" style="padding:30px;text-align:center;border-radius:10px;cursor:pointer;">Klick zum Starten …</div>
+          <p id="rt-result">Letzte Zeit: <span id="rt-last">–</span> ms | Best: <span id="rt-best">–</span> ms</p>
         </details>
-
-        <details class="game" id="dd-snake">
+        <details class="game">
           <summary>🐍 Snake</summary>
-          <div class="snake-stage" style="position:relative;width:400px;height:400px">
-            <canvas id="snakeCanvas" width="400" height="400"></canvas>
-            <div id="snakeOverlay" class="snake-overlay show">Klicke zum Starten</div>
-          </div>
-        </details>
-
-        <details class="game" id="dd-quiz">
-          <summary>🧠 Trivia Quiz</summary>
-          <div id="quiz-box"></div>
-          <button id="quiz-start" class="btn">📝 Quiz starten</button>
-          <div>Punkte: <span id="quiz-score">0</span> | Best: <span id="quiz-best">0</span></div>
+          <canvas id="snakeCanvas" width="400" height="400" style="border:1px solid #999;border-radius:8px;background:#0b1220"></canvas>
+          <div id="snakeOverlay" class="snake-overlay show">Klicke zum Starten</div>
         </details>
       </div>
 
-      <div id="panel-links" class="tabpanel" aria-hidden="true">
+      <div id="links" class="tabpanel" aria-hidden="true">
         <h2>Links</h2>
-        <p><a class="link" href="https://www.youtube.com/@jenbi13" target="_blank">➡️ Jenbi auf YouTube</a></p>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/lDBJk9_NfrY?si=6cJZscBPXnm-Akve" allowfullscreen></iframe>
+        <p><a href="https://www.youtube.com/@jenbi13" target="_blank" class="link">➡️ Jenbi auf YouTube</a></p>
       </div>
     </section>
 
-    <footer><p>© <span id="year"></span> Jenbi • mit ❤️ und Schmäh</p></footer>
+    <footer><p>© <span id="year"></span> Jenbi</p></footer>
   </div>
 
-  <script>
-  const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+<script>
+const $ = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
 
-  // Theme
-  const themeBtn=$("#themeToggle");
-  const prefKey="jenbi.theme";
-  const saved=localStorage.getItem(prefKey);
-  document.documentElement.dataset.theme=(saved==="dark"||saved==="light")?saved:"auto";
-  themeBtn.onclick=()=>{const c=document.documentElement.dataset.theme;const n=c==="dark"?"light":"dark";document.documentElement.dataset.theme=n;localStorage.setItem(prefKey,n)};
+// ===== SETTINGS MENU =====
+const settingsBtn = $('#settingsBtn');
+const settingsMenu = $('#settingsMenu');
+settingsBtn.addEventListener('click',()=>settingsMenu.classList.toggle('show'));
 
-  // Tabs
-  const tabs=$$(".tab"),panels=$$(".tabpanel");
-  tabs.forEach((t,i)=>t.onclick=()=>{tabs.forEach((tb,j)=>{tb.setAttribute("aria-selected",i===j);panels[j].ariaHidden=i!==j})});
+const themeSel = $('#themeSelect');
+const langSel = $('#langSelect');
+const prefTheme='jenbi.theme', prefLang='jenbi.lang';
+const savedTheme=localStorage.getItem(prefTheme)||'auto';
+const savedLang=localStorage.getItem(prefLang)||'de';
+document.documentElement.setAttribute('data-theme',savedTheme);
+themeSel.value=savedTheme; langSel.value=savedLang;
+themeSel.addEventListener('change',()=>{localStorage.setItem(prefTheme,themeSel.value);document.documentElement.setAttribute('data-theme',themeSel.value);});
+langSel.addEventListener('change',()=>{localStorage.setItem(prefLang,langSel.value);location.reload();});
 
-  // SSP
-  const sspKey="jenbi.ssp";let ssp={w:0,l:0,d:0};
-  const sspRes=$("#ssp-result"),sspScore=$("#ssp-score");
-  try{ssp=JSON.parse(localStorage.getItem(sspKey))||ssp}catch{}
-  const upd=()=>{sspScore.textContent=`Score: ${ssp.w+ssp.l+ssp.d} 🏆 | Wins: ${ssp.w} | Losses: ${ssp.l} | Draws: ${ssp.d}`;localStorage.setItem(sspKey,JSON.stringify(ssp))};
-  upd();
-  const beats={Schere:"Papier",Stein:"Schere",Papier:"Stein"};
-  $$("#dd-ssp .btn[data-choice]").forEach(b=>b.onclick=()=>{const c=b.dataset.choice,m=["Schere","Stein","Papier"][Math.floor(Math.random()*3)];
-    if(c===m){ssp.d++;sspRes.textContent=`${c} vs ${m} – Unentschieden!`}
-    else if(beats[c]===m){ssp.w++;sspRes.textContent=`${c} vs ${m} – DU GEWONNEN!`}
-    else{ssp.l++;sspRes.textContent=`${c} vs ${m} – Verloren!`}
-    upd()});
-  $("#resetScore").onclick=()=>{ssp={w:0,l:0,d:0};upd();sspRes.textContent="—"};
+// ===== TABS =====
+const tabs=$$('.tab');
+function activateTab(i){
+  tabs.forEach((t,j)=>{
+    const sel=i===j;
+    t.setAttribute('aria-selected',sel);
+    $('#'+t.getAttribute('aria-controls')).setAttribute('aria-hidden',!sel);
+  });
+}
+tabs.forEach((t,i)=>t.addEventListener('click',()=>activateTab(i)));
+activateTab(0);
 
-  // Reaction
-  const pad=$("#rt-pad"),last=$("#rt-last"),best=$("#rt-best");
-  let state="idle",start,timeout,bestV=+localStorage.getItem("rt.best")||0;
-  if(bestV)best.textContent=bestV;
-  pad.onclick=()=>{
-    if(state==="idle"){state="wait";pad.textContent="Warte …";timeout=setTimeout(()=>{state="go";start=performance.now();pad.textContent="JETZT!"},700+Math.random()*2300)}
-    else if(state==="wait"){clearTimeout(timeout);state="idle";pad.textContent="Zu früh! Klick neu"}
-    else if(state==="go"){const t=Math.round(performance.now()-start);last.textContent=t;pad.textContent="Klick zum Starten …";state="idle";if(!bestV||t<bestV){bestV=t;best.textContent=t;localStorage.setItem("rt.best",t)}}};
+// ===== REACTION TIMER =====
+const pad=$('#rt-pad'), last=$('#rt-last'), best=$('#rt-best');
+let state='idle',timeout,start,bestVal=localStorage.getItem('jenbi.rt.best')||'–';
+best.textContent=bestVal;
+function setPad(c,t,bg){pad.textContent=t;pad.style.background=bg;}
+function arm(){state='ready';setPad('','Warte …','#ef4444');timeout=setTimeout(()=>{state='go';start=performance.now();setPad('','JETZT!','#22c55e');},1000+Math.random()*2000);}
+pad.addEventListener('click',()=>{
+ if(state==='idle'){arm();}
+ else if(state==='ready'){clearTimeout(timeout);setPad('','Zu früh!','#f87171');state='idle';}
+ else if(state==='go'){const t=Math.round(performance.now()-start);last.textContent=t;setPad('','Klick zum Starten …','#94a3b8');state='idle';
+ if(best.textContent==='–'||t<best.textContent){best.textContent=t;localStorage.setItem('jenbi.rt.best',t);}
+ }
+});
 
-  // Trivia
-  const Q=[
-    {q:"In welchem Jahr fiel die Berliner Mauer? (Geschichte)",a:["1987","1989","1991","1993"],c:1},
-    {q:"Wer gilt als Erfinder des Buchdrucks? (Geschichte)",a:["Da Vinci","Gutenberg","Newton","Luther"],c:1},
-    {q:"Wann war der Zweite Weltkrieg? (Geschichte)",a:["1914–18","1939–45","1950–53","1961–75"],c:1},
-    {q:"Amtssprache des Römischen Reiches? (Geschichte)",a:["Griechisch","Latein","Aramäisch","Gotisch"],c:1},
-    {q:"Erster Mensch auf dem Mond (1969)?",a:["Aldrin","Gagarin","Armstrong","Collins"],c:2},
-    {q:"Wann ist die Minecraft-Vollversion 1.0 released?",a:["2009","2010","2011","2012"],c:2},
-    {q:"Was droppen Creeper?",a:["Knochen","Schwarzpulver","Fäden","Schleimball"],c:1},
-    {q:"Min. Obsidian für Netherportal?",a:["8","10","12","14"],c:1},
-    {q:"Berufsstation vom Cleric?",a:["Schmiedetisch","Braustand","Webstuhl","Komposter"],c:1},
-    {q:"Max Stack von Enderperlen?",a:["16","32","64","8"],c:0},
-    {q:"Hauptstadt von Australien?",a:["Sydney","Melbourne","Canberra","Perth"],c:2},
-    {q:"Flächenmäßig größtes Land?",a:["Kanada","Russland","China","USA"],c:1},
-    {q:"Kleinstes Land der Welt?",a:["Monaco","San Marino","Vatikanstadt","Liechtenstein"],c:2},
-    {q:"Kontinent mit den meisten Staaten?",a:["Europa","Afrika","Asien","Südamerika"],c:1},
-    {q:"Hauptstadt von Kanada? (Geographie)",a:["Toronto","Vancouver","Ottawa","Montreal"],c:2},
-    {q:"Release-Jahr von Super Mario Odyssey?",a:["2015","2016","2017","2018"],c:2},
-    {q:"Name des Hut-Begleiters in Odyssey?",a:["Toad","Cappy","Luma","Pauline"],c:1},
-    {q:"Haupt-Sammelobjekte in Odyssey?",a:["Power-Sterne","Power-Monde","Shines","Wundersaaten"],c:1},
-    {q:"In welchem Kingdom trifft man als erstes auf den T-Rex?",a:["Wooded","Sand","Cascade","Metro"],c:2},
-    {q:"Zusatzwährung pro Königreich?",a:["Lila Münzen","Rote Sterne","Blaue Rubine","Silberne Ringe"],c:0},
-  ];
-  const qBox=$("#quiz-box"),qBtn=$("#quiz-start"),qS=$("#quiz-score"),qB=$("#quiz-best");
-  let qi=0,qs=0,bestQ=+localStorage.getItem("quiz.best")||0;if(bestQ)qB.textContent=bestQ;
-  function ask(){if(qi>=5)return end();const d=Q[Math.floor(Math.random()*Q.length)];qBox.innerHTML=`<p>${d.q}</p>`;d.a.forEach((x,i)=>{const b=document.createElement("button");b.textContent=x;b.className="btn";b.onclick=()=>{if(i===d.c)qs++;qS.textContent=qs;qi++;ask()};qBox.append(b)})}
-  function end(){qBox.innerHTML=`Fertig! Punkte: ${qs}/5`;if(qs>bestQ){bestQ=qs;localStorage.setItem("quiz.best",qs);qB.textContent=qs}}
-  qBtn.onclick=()=>{qi=0;qs=0;qS.textContent="0";ask()};
+// ===== SNAKE =====
+(()=>{const cvs=$('#snakeCanvas'),ctx=cvs.getContext('2d'),ov=$('#snakeOverlay');
+const CELL=16,COLS=25,ROWS=25,TICK=110;
+let snake,dir,next,food,score=0,running=false,paused=true,dead=false,acc=0,lastTs;
+function rnd(){return{x:Math.floor(Math.random()*COLS),y:Math.floor(Math.random()*ROWS)}}
+function spawn(){let f;do{f=rnd()}while(snake.some(s=>s.x===f.x&&s.y===f.y));food=f;}
+function overlay(txt,show){ov.textContent=txt;ov.classList.toggle('show',show);}
+function reset(){snake=[{x:12,y:12}];dir={x:1,y:0};next=dir;spawn();running=false;paused=true;dead=false;overlay('Klicke zum Starten',true);}
+function draw(){ctx.fillStyle='#0b1220';ctx.fillRect(0,0,400,400);
+ctx.fillStyle='#ef4444';ctx.fillRect(food.x*CELL,food.y*CELL,CELL,CELL);
+ctx.fillStyle='#22c55e';snake.forEach(s=>ctx.fillRect(s.x*CELL,s.y*CELL,CELL,CELL));}
+function step(){dir=next;const h={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
+if(h.x<0||h.y<0||h.x>=COLS||h.y>=ROWS||snake.some(s=>s.x===h.x&&s.y===h.y))return gameOver();
+snake.unshift(h);if(h.x===food.x&&h.y===food.y){score++;spawn();}else snake.pop();}
+function loop(ts){if(!running||paused)return;if(!lastTs)lastTs=ts;const d=ts-lastTs;lastTs=ts;acc+=d;while(acc>=TICK){step();acc-=TICK;}draw();requestAnimationFrame(loop);}
+function gameOver(){running=false;dead=true;overlay('Game Over – Klicke zum Starten',true);}
+function start(){if(running)return;running=true;paused=false;dead=false;overlay('',false);requestAnimationFrame(loop);}
+window.addEventListener('keydown',e=>{
+const k=e.key.toLowerCase();
+if(k==='w'||k==='arrowup')next={x:0,y:-1};
+else if(k==='s'||k==='arrowdown')next={x:0,y:1};
+else if(k==='a'||k==='arrowleft')next={x:-1,y:0};
+else if(k==='d'||k==='arrowright')next={x:1,y:0};
+else if(k==='p')paused=!paused;
+else if(k==='r')reset();
+});
+ov.addEventListener('click',()=>{if(dead){reset();start();}else if(!running){start();}});
+reset();})();
 
-  // Konami
-  const K=["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
-  let buf=[];window.addEventListener("keydown",e=>{const k=e.key.length===1?e.key.toLowerCase():e.key;buf.push(k);if(buf.length>K.length)buf.shift();if(K.every((kk,i)=>buf[i]===kk)){buf=[];window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ","_blank");alert("Never gonna give you up 🎶")}});
+// ===== JOEL EASTER EGG =====
+let joelClicks=0;
+$('#joel').addEventListener('click',()=>{
+ joelClicks++;
+ if(joelClicks>=10){
+   $('#joel-img').style.display='block';
+   setTimeout(()=>$('#joel-img').style.display='none',3000);
+   joelClicks=0;
+ }
+});
 
-  // Joel Easter Egg
-  const joel=$("#joel"),joelImg=$("#joel-img");let clicks=0;
-  joel.onclick=()=>{clicks++;if(clicks>=10){joelImg.classList.add("show");setTimeout(()=>joelImg.classList.remove("show"),3000);clicks=0;}};
-
-  $("#year").textContent=new Date().getFullYear();
-  </script>
+// ===== FOOTER YEAR =====
+$('#year').textContent=new Date().getFullYear();
+</script>
 </body>
 </html>
