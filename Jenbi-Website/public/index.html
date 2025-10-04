@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="auto">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jenbi</title>
+  <meta name="description" content="Jenbi – Mini-Games, Links & ein bisserl Über mich." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🎮</text></svg>">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/games.css">
+  <link rel="stylesheet" href="assets/css/snake.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <img alt="Jenbi Avatar" src="https://yt3.googleusercontent.com/5j4zseBO0OrjSe51wzVmqQ8jfrpsTFhk_GSuij_Ng9vusIpFr6l7Vi9S_8Klo-yCVRyEOCBKDg=s256-c-k-c0x00ffffff-no-rj" />
+        <div>
+          <div class="title">Jenbi</div>
+          <div class="muted">Roblox • Minecraft • Nintendo • aus NÖ 🦌</div>
+        </div>
+      </div>
+      <button id="themeToggle" class="btn" aria-label="Darstellung umschalten">🌓 Theme</button>
+    </header>
+
+    <section class="card tabs" id="tabs">
+      <div role="tablist" aria-label="Bereiche" class="tablist">
+        <button class="tab" role="tab" id="tab-ueber" aria-controls="panel-ueber" aria-selected="true">🧍 Über mich</button>
+        <button class="tab" role="tab" id="tab-games" aria-controls="panel-games" aria-selected="false">🎮 Mini-Games</button>
+        <button class="tab" role="tab" id="tab-links" aria-controls="panel-links" aria-selected="false">🔗 Links</button>
+      </div>
+
+      <!-- Über mich -->
+      <div id="panel-ueber" class="tabpanel" role="tabpanel" aria-labelledby="tab-ueber" aria-hidden="false">
+        <h2>Über mich</h2>
+        <p>Servas! Ich bin <strong>Jenbi</strong> – willkommen auf meiner kleinen, aber feinen Seite. 😎</p>
+        <p>Ich komm’ aus dem schönen <strong>Niederösterreich</strong> und mach manchmal Videos zu <em>Roblox</em>, <em>Minecraft</em> und <em>Nintendo</em>.</p>
+        <p>Homies: <strong>Fabian</strong> (IRL), <strong>Joel</strong> (Brawl Stars-Discord), <strong>zLequit</strong> (seit Jahren; über RunningStarJonas; geiler YTer)</p>
+      </div>
+
+      <!-- Mini-Games -->
+      <div id="panel-games" class="tabpanel" role="tabpanel" aria-labelledby="tab-games" aria-hidden="true">
+        <h2>Mini-Games</h2>
+
+        <details class="game" id="dd-ssp">
+          <summary>✂️🪨📄 Schere-Stein-Papier</summary>
+          <article class="game-area">
+            <div class="choices">
+              <button class="btn" data-choice="Schere">✌️ Schere</button>
+              <button class="btn" data-choice="Stein">🪨 Stein</button>
+              <button class="btn" data-choice="Papier">📄 Papier</button>
+              <button class="btn" id="resetScore">🔁 Reset</button>
+            </div>
+            <p id="ssp-result" class="score">—</p>
+            <p class="muted" id="ssp-score" aria-live="polite">Score: 0 🏆 | Wins: 0 | Losses: 0 | Draws: 0</p>
+          </article>
+        </details>
+
+        <details class="game" id="dd-rt">
+          <summary>⚡ Reaction Timer</summary>
+          <article class="rt-box">
+            <div id="rt-pad" class="rt-pad rt-wait">Klick zum Starten …</div>
+            <div class="row">
+              <div class="stat">Letzte Zeit: <span id="rt-last">–</span> ms</div>
+              <div class="stat">Best: <span id="rt-best">–</span> ms</div>
+              <button id="rt-reset" class="btn">🗑️ Reset Best</button>
+            </div>
+          </article>
+        </details>
+
+        <details class="game" id="dd-snake" open>
+          <summary>🐍 Snake</summary>
+          <article class="snake-wrap" id="snake-wrap">
+            <div class="snake-stage">
+              <canvas id="snakeCanvas" width="400" height="400" aria-label="Snake Spielfeld"></canvas>
+              <div class="snake-overlay" id="snake-overlay" hidden>
+                <div class="snake-overlay-inner" id="snake-overlay-text">Klicke zum Starten</div>
+              </div>
+            </div>
+            <div class="row">
+              <button id="snake-start" class="btn">▶️ Start</button>
+              <button id="snake-pause" class="btn">⏸️ Pause</button>
+              <button id="snake-reset" class="btn">🔁 Reset</button>
+              <div class="stat">Score: <span id="snake-score">0</span></div>
+              <div class="stat">Best: <span id="snake-best">0</span></div>
+            </div>
+            <p class="muted">Steuerung: Pfeiltasten oder WASD • P = Pause • R = Reset</p>
+          </article>
+        </details>
+
+        <details class="game" id="dd-quiz">
+          <summary>🧠 Trivia Quiz</summary>
+          <article class="game-area">
+            <div id="quiz-box"></div>
+            <div class="row">
+              <button id="quiz-start" class="btn">📝 Quiz starten</button>
+              <div class="stat">Punkte: <span id="quiz-score">0</span></div>
+              <div class="stat">Best: <span id="quiz-best">0</span></div>
+              <button id="quiz-reset" class="btn">🗑️ Reset Best</button>
+            </div>
+          </article>
+        </details>
+      </div>
+
+      <!-- Links -->
+      <div id="panel-links" class="tabpanel" role="tabpanel" aria-labelledby="tab-links" aria-hidden="true">
+        <h2>Links</h2>
+        <p>Mein YouTube-Kanal:</p>
+        <p><a class="link" href="https://www.youtube.com/@jenbi13" target="_blank" rel="noopener noreferrer">➡️ Jenbi auf YouTube</a></p>
+        <p>Beliebtestes Video:</p>
+        <iframe title="Beliebtestes Video von Jenbi"
+          src="https://www.youtube.com/embed/lDBJk9_NfrY?si=6cJZscBPXnm-Akve"
+          loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+        </iframe>
+      </div>
+    </section>
+
+    <footer>
+      <p>© <span id="year"></span> Jenbi • Gemacht mit <span aria-label="Liebe" role="img">❤️</span>.</p>
+    </footer>
+  </div>
+
+  <script type="module" src="assets/js/app.js"></script>
+</body>
+</html>
