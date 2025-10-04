@@ -96,6 +96,31 @@
     .settings-panel.show{display:block}
     .settings-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0}
     .select{width:140px;padding:8px;border-radius:10px;border:1px solid rgba(148,163,184,.35);background:transparent;color:var(--text)}
+    /* -- hübscher Gear-Button -- */
+.btn-ghost{
+  background: transparent;
+  border: none;
+  color: var(--text);
+  box-shadow: none;
+}
+
+#settingsBtn{
+  font-size: 22px;          /* größer */
+  padding: 6px 8px;
+  line-height: 1;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+#settingsBtn:hover{
+  background: rgba(148,163,184,.15);  /* dezenter Hover */
+}
+#settingsBtn:focus-visible{
+  outline: none;
+  box-shadow: var(--ring);
+}
+
   </style>
 </head>
 <body>
@@ -582,3 +607,4 @@
   </script>
 </body>
 </html>
+
