@@ -7,64 +7,75 @@
   <meta name="description" content="Jenbi – Mini-Games, Links & ein bisserl Über mich." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🎮</text></svg>">
   <style>
-    :root {
-      --bg: #f6f7fb; --surface: #ffffff; --text: #0f172a; --muted: #475569;
-      --primary: #2a6cf4; --primary-contrast: #ffffff;
-      --ring: 0 0 0 3px rgba(42,108,244,.35);
-      --radius: 14px; --shadow: 0 10px 30px rgba(2, 8, 23, 0.08);
+    :root{
+      --bg:#f6f7fb; --surface:#ffffff; --text:#0f172a; --muted:#475569;
+      --primary:#2a6cf4; --primary-contrast:#ffffff;
+      --ring:0 0 0 3px rgba(42,108,244,.35);
+      --radius:14px; --shadow:0 10px 30px rgba(2,8,23,.08);
     }
-    @media (prefers-color-scheme: dark) {
-      :root { --bg:#0b1220; --surface:#0f172a; --text:#e5e7eb; --muted:#94a3b8;
-              --primary:#60a5fa; --primary-contrast:#0b1220;
-              --shadow:0 12px 40px rgba(0,0,0,.45); }
+    @media (prefers-color-scheme: dark){
+      :root{ --bg:#0b1220; --surface:#0f172a; --text:#e5e7eb; --muted:#94a3b8;
+             --primary:#60a5fa; --primary-contrast:#0b1220; --shadow:0 12px 40px rgba(0,0,0,.45); }
     }
 
-    *{box-sizing:border-box;margin:0;padding:0}
+    *{box-sizing:border-box}
     body{
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      margin:0; color:var(--text); line-height:1.6;
       background:
         radial-gradient(1200px 600px at 80% -10%, rgba(42,108,244,.12), transparent 60%),
         radial-gradient(1000px 600px at -10% 10%, rgba(99,102,241,.10), transparent 55%),
         var(--bg);
-      color:var(--text); line-height:1.6;
     }
 
     .wrap{max-width:960px;margin:28px auto;padding:0 16px 56px}
     header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
     .brand{display:flex;align-items:center;gap:12px}
     .brand img{width:56px;height:56px;border-radius:50%;object-fit:cover;box-shadow:0 6px 18px rgba(0,0,0,.15)}
-    .title{font-size:1.6rem;font-weight:800;letter-spacing:.2px}
+    .title{font-size:1.6rem;font-weight:800}
     .muted{color:var(--muted);font-size:.95rem}
-    .version{font-size:.9rem;color:var(--muted);}
+    .version{color:var(--muted);font-size:.9rem;margin-left:8px}
 
-    .settings-wrap{position:relative}
-    .settings-menu{
-      position:absolute;top:120%;right:0;background:var(--surface);
-      border-radius:12px;box-shadow:var(--shadow);
-      border:1px solid rgba(148,163,184,.25);
-      padding:10px;display:none;z-index:10;min-width:160px;
+    .btn{
+      appearance:none;border:0;cursor:pointer;font-weight:700;
+      background:var(--primary);color:var(--primary-contrast);
+      padding:10px 14px;border-radius:10px;box-shadow:0 6px 16px rgba(42,108,244,.35);
+      transition:transform .15s ease, filter .2s ease;
     }
-    .settings-menu.show{display:block;}
-    .settings-menu label{display:block;font-weight:700;margin-bottom:4px}
-    .settings-menu select{width:100%;padding:6px;border-radius:8px;border:1px solid rgba(148,163,184,.3);background:var(--surface);color:var(--text)}
+    .btn:hover{transform:translateY(-1px);filter:brightness(1.05)}
+    .link{color:var(--primary);font-weight:700;text-decoration:none}
+
+    .card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);overflow:clip;border:1px solid rgba(148,163,184,.15)}
 
     .tabs{display:grid;grid-template-rows:auto 1fr;min-height:420px}
     .tablist{display:flex;gap:8px;background:linear-gradient(180deg, rgba(42,108,244,.12), transparent);padding:14px;border-bottom:1px solid rgba(148,163,184,.20)}
-    .tab{appearance:none;border:0;cursor:pointer;background:var(--surface);color:var(--text);padding:10px 14px;border-radius:10px;font-weight:600;transition:transform .15s ease, background .2s ease;box-shadow:0 2px 8px rgba(2,8,23,.05)}
+    .tab{appearance:none;border:0;cursor:pointer;background:var(--surface);color:var(--text);padding:10px 14px;border-radius:10px;font-weight:600;box-shadow:0 2px 8px rgba(2,8,23,.05);transition:transform .15s ease, background .2s ease}
     .tab[aria-selected="true"]{background:var(--primary);color:var(--primary-contrast)}
     .tabpanel{display:none;padding:22px}
     .tabpanel[aria-hidden="false"]{display:block}
-
-    .btn{appearance:none;border:0;cursor:pointer;font-weight:700;background:var(--primary);color:var(--primary-contrast);padding:10px 14px;border-radius:10px;box-shadow:0 6px 16px rgba(42,108,244,.35);transition:transform .15s ease, filter .2s ease}
-    .btn:hover{transform:translateY(-1px);filter:brightness(1.05)}
 
     details.game{border:1px solid rgba(148,163,184,.25);border-radius:12px;padding:12px 14px;margin:14px 0;background:var(--surface);box-shadow:var(--shadow)}
     details.game>summary{list-style:none;cursor:pointer;font-weight:800}
     details.game[open]{border-color:rgba(42,108,244,.35)}
 
+    iframe{border:0;width:100%;max-width:100%;aspect-ratio:16/9;border-radius:12px}
     footer{margin-top:24px;color:var(--muted);font-size:.9rem;text-align:center}
-    .snake-overlay{position:absolute;inset:0;display:grid;place-items:center;background:rgba(15,23,42,.45);color:#fff;font-weight:900;font-size:1.2rem;border-radius:8px;text-align:center;opacity:0;pointer-events:none;transition:.2s}
+
+    /* Reaction Timer */
+    .rt-pad{margin-top:10px;padding:26px;border-radius:12px;user-select:none;cursor:pointer;text-align:center}
+    .rt-wait{background:#f1f5f9;color:#475569}
+    .rt-ready{background:#ef4444;color:#fff}
+    .rt-go{background:#22c55e;color:#0b1220}
+
+    /* Snake */
+    .snake-stage{position:relative;width:400px;height:400px}
+    #snakeCanvas{background:#0b1220;border:1px solid rgba(148,163,184,.4);border-radius:8px;width:400px;height:400px;image-rendering:pixelated;transition:filter .15s ease}
+    .snake-overlay{position:absolute;inset:0;display:grid;place-items:center;background:rgba(15,23,42,.45);color:#fff;font-weight:900;font-size:1.1rem;border-radius:8px;text-align:center;backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .15s ease}
     .snake-overlay.show{opacity:1;pointer-events:auto}
+
+    /* Joel Easter Egg image */
+    #joel-img{display:none;max-width:200px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.4);margin-top:10px;opacity:0;transition:opacity .3s}
+    #joel-img.show{display:block;opacity:1}
   </style>
 </head>
 <body>
@@ -77,22 +88,9 @@
           <div class="muted">Roblox • Minecraft • Nintendo • aus NÖ 🦌</div>
         </div>
       </div>
-      <div class="settings-wrap">
-        <button id="settingsBtn" class="btn">⚙️</button>
-        <div id="settingsMenu" class="settings-menu">
-          <label for="themeSelect">Theme:</label>
-          <select id="themeSelect">
-            <option value="auto">Auto</option>
-            <option value="light">Hell</option>
-            <option value="dark">Dunkel</option>
-          </select>
-          <label for="langSelect">Sprache:</label>
-          <select id="langSelect">
-            <option value="de">Deutsch</option>
-            <option value="en">English</option>
-          </select>
-        </div>
-        <span class="version">v3.0.0_pre6</span>
+      <div>
+        <button id="themeToggle" class="btn" aria-label="Theme umschalten">🌓 Theme</button>
+        <span class="version">v3.0.0_pre7</span>
       </div>
     </header>
 
@@ -103,124 +101,339 @@
         <button class="tab" role="tab" id="tab-links" aria-controls="links" aria-selected="false">🔗 Links</button>
       </div>
 
+      <!-- ÜBER -->
       <div id="ueber" class="tabpanel" aria-hidden="false">
         <h2>Über mich</h2>
         <p>Servas! Ich bin <strong>Jenbi</strong> – willkommen auf meiner kleinen, aber feinen Seite. Hier find’sd Mini-Games, Links und a bissl was über mich. 😎</p>
         <p>Ich komm’ aus dem schönen <strong>Niederösterreich</strong> und mach Videos zu <em>Roblox</em>, <em>Minecraft</em> und <em>Nintendo</em>.</p>
         <p>Homies: <strong>Fabian</strong> (IRL), <strong id="joel">Joel</strong> (Brawl Stars-Discord), <strong>zLequit</strong> (kenn ich seit 2019 – <em>abonnieren auf süß!</em>)</p>
-        <img id="joel-img" src="Joel_Bild.png" alt="Joel" style="display:none;max-width:200px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.4);margin-top:10px">
+        <!-- Joel Easter Egg Bild: lade Joel_Bild.png in dein Repo (oder assets/Joel_Bild.png) -->
+        <img id="joel-img" src="Joel_Bild.png" alt="Joel">
       </div>
 
+      <!-- GAMES -->
       <div id="games" class="tabpanel" aria-hidden="true">
         <h2>Mini-Games</h2>
-        <details class="game">
-          <summary>⚡ Reaction Timer</summary>
-          <div id="rt-pad" class="rt-pad rt-wait" style="padding:30px;text-align:center;border-radius:10px;cursor:pointer;">Klick zum Starten …</div>
-          <p id="rt-result">Letzte Zeit: <span id="rt-last">–</span> ms | Best: <span id="rt-best">–</span> ms</p>
+
+        <details class="game" id="dd-ssp">
+          <summary>✂️🪨📄 Schere-Stein-Papier</summary>
+          <article class="game-area">
+            <div class="choices">
+              <button class="btn" data-choice="Schere">✌️ Schere</button>
+              <button class="btn" data-choice="Stein">🪨 Stein</button>
+              <button class="btn" data-choice="Papier">📄 Papier</button>
+              <button class="btn" id="resetScore" title="Score zurücksetzen">🔁 Reset</button>
+            </div>
+            <p id="ssp-result" class="score">—</p>
+            <p class="muted" id="ssp-score" aria-live="polite">Score: 0 🏆 | Wins: 0 | Losses: 0 | Draws: 0</p>
+          </article>
         </details>
-        <details class="game">
+
+        <details class="game" id="dd-rt">
+          <summary>⚡ Reaction Timer</summary>
+          <div id="rt-pad" class="rt-pad rt-wait">Klick zum Starten …</div>
+          <p class="muted">Letzte Zeit: <span id="rt-last">–</span> ms | Best: <span id="rt-best">–</span> ms</p>
+          <button id="rt-reset" class="btn" title="Bestzeit löschen">🗑️ Reset Best</button>
+        </details>
+
+        <details class="game" id="dd-snake">
           <summary>🐍 Snake</summary>
-          <canvas id="snakeCanvas" width="400" height="400" style="border:1px solid #999;border-radius:8px;background:#0b1220"></canvas>
-          <div id="snakeOverlay" class="snake-overlay show">Klicke zum Starten</div>
+          <div class="snake-stage">
+            <canvas id="snakeCanvas" width="400" height="400" aria-label="Snake Spielfeld"></canvas>
+            <div id="snakeOverlay" class="snake-overlay show">Klicke zum Starten</div>
+          </div>
+          <div class="row" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px">
+            <button id="snake-start" class="btn">▶️ Start</button>
+            <button id="snake-pause" class="btn" disabled>⏸️ Pause</button>
+            <button id="snake-reset" class="btn">🔁 Reset</button>
+            <div class="stat">Score: <span id="snake-score">0</span></div>
+            <div class="stat">Best: <span id="snake-best">0</span></div>
+          </div>
+          <p class="muted">Steuerung: Pfeiltasten oder WASD • P = Pause/Weiter • R = Reset</p>
         </details>
       </div>
 
+      <!-- LINKS -->
       <div id="links" class="tabpanel" aria-hidden="true">
         <h2>Links</h2>
-        <p><a href="https://www.youtube.com/@jenbi13" target="_blank" class="link">➡️ Jenbi auf YouTube</a></p>
+        <p>Mein YouTube-Kanal:</p>
+        <p><a class="link" href="https://www.youtube.com/@jenbi13" target="_blank" rel="noopener noreferrer">➡️ Jenbi auf YouTube</a></p>
+        <p>Beliebtestes Video:</p>
+        <iframe title="Beliebtestes Video von Jenbi"
+          src="https://www.youtube.com/embed/lDBJk9_NfrY?si=6cJZscBPXnm-Akve"
+          loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+        </iframe>
       </div>
     </section>
 
-    <footer><p>© <span id="year"></span> Jenbi</p></footer>
+    <footer>
+      <p>© <span id="year"></span> Jenbi • Gemacht mit <span aria-label="Liebe" role="img">❤️</span> & ein bissl Schmäh.</p>
+    </footer>
   </div>
 
-<script>
-const $ = (s,r=document)=>r.querySelector(s);
-const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+  <script>
+    const $  = (s, r=document)=>r.querySelector(s);
+    const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
 
-// ===== SETTINGS MENU =====
-const settingsBtn = $('#settingsBtn');
-const settingsMenu = $('#settingsMenu');
-settingsBtn.addEventListener('click',()=>settingsMenu.classList.toggle('show'));
+    /* ===== Theme ===== */
+    const themeToggle = $('#themeToggle');
+    const THEME_KEY = 'jenbi.theme';
+    const savedTheme = localStorage.getItem(THEME_KEY);
+    document.documentElement.setAttribute('data-theme',
+      (savedTheme === 'light' || savedTheme === 'dark') ? savedTheme : 'auto'
+    );
+    themeToggle.addEventListener('click', () => {
+      const cur = document.documentElement.getAttribute('data-theme');
+      const next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem(THEME_KEY, next);
+    });
 
-const themeSel = $('#themeSelect');
-const langSel = $('#langSelect');
-const prefTheme='jenbi.theme', prefLang='jenbi.lang';
-const savedTheme=localStorage.getItem(prefTheme)||'auto';
-const savedLang=localStorage.getItem(prefLang)||'de';
-document.documentElement.setAttribute('data-theme',savedTheme);
-themeSel.value=savedTheme; langSel.value=savedLang;
-themeSel.addEventListener('change',()=>{localStorage.setItem(prefTheme,themeSel.value);document.documentElement.setAttribute('data-theme',themeSel.value);});
-langSel.addEventListener('change',()=>{localStorage.setItem(prefLang,langSel.value);location.reload();});
+    /* ===== Tabs ===== */
+    const tabs = $$('.tab');
+    function activateTab(index, pushHash = true) {
+      tabs.forEach((t, i) => {
+        const sel = i === index;
+        t.setAttribute('aria-selected', String(sel));
+        const panelId = t.getAttribute('aria-controls');
+        $('#'+panelId)?.setAttribute('aria-hidden', String(!sel));
+      });
+      if (pushHash && tabs[index]) {
+        const id = tabs[index].id.replace('tab-', '');
+        history.replaceState(null, '', '#' + id);
+      }
+      tabs[index]?.focus({ preventScroll:true });
+    }
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => activateTab(i));
+      tab.addEventListener('keydown', (e) => {
+        const k = e.key;
+        if (k === 'ArrowRight' || k === 'ArrowLeft') {
+          e.preventDefault();
+          const d = k === 'ArrowRight' ? 1 : -1;
+          activateTab((i + d + tabs.length) % tabs.length);
+        }
+        if (k === 'Home') { e.preventDefault(); activateTab(0); }
+        if (k === 'End')  { e.preventDefault(); activateTab(tabs.length-1); }
+      });
+    });
+    (function initFromHash(){
+      const hash = location.hash.replace('#','');
+      const idx = tabs.findIndex(t => t.id === 'tab-' + hash);
+      activateTab(idx >= 0 ? idx : 0, false);
+    })();
 
-// ===== TABS =====
-const tabs=$$('.tab');
-function activateTab(i){
-  tabs.forEach((t,j)=>{
-    const sel=i===j;
-    t.setAttribute('aria-selected',sel);
-    $('#'+t.getAttribute('aria-controls')).setAttribute('aria-hidden',!sel);
-  });
-}
-tabs.forEach((t,i)=>t.addEventListener('click',()=>activateTab(i)));
-activateTab(0);
+    /* ===== SSP ===== */
+    const sspKey = 'jenbi.ssp.score';
+    const sspResult = $('#ssp-result');
+    const sspScoreEl = $('#ssp-score');
+    let score = { total: 0, win: 0, lose: 0, draw: 0 };
+    try { const saved = JSON.parse(localStorage.getItem(sspKey)); if (saved && typeof saved === 'object') score = saved; } catch {}
+    const choices = ['Schere','Stein','Papier'];
+    const beats = { Schere: 'Papier', Stein: 'Schere', Papier: 'Stein' };
+    function updateScoreline() {
+      sspScoreEl.textContent = `Score: ${score.total} 🏆 | Wins: ${score.win} | Losses: ${score.lose} | Draws: ${score.draw}`;
+      localStorage.setItem(sspKey, JSON.stringify(score));
+    }
+    updateScoreline();
+    function playSSP(choice) {
+      const bot = choices[Math.floor(Math.random()*3)];
+      let msg;
+      if (choice === bot) { score.draw++; score.total++; msg = `${choice} vs ${bot} … Unentschieden!`; }
+      else if (beats[choice] === bot) { score.win++; score.total++; msg = `${choice} vs ${bot} … DU HAST GEWONNEN!`; }
+      else { score.lose++; score.total++; msg = `${choice} vs ${bot} … Du hast verloren!`; }
+      sspResult.textContent = msg; updateScoreline();
+    }
+    $$('#dd-ssp [data-choice]').forEach(btn => btn.addEventListener('click', () => playSSP(btn.dataset.choice)));
+    $('#resetScore')?.addEventListener('click', () => { score = { total: 0, win: 0, lose: 0, draw: 0 }; updateScoreline(); sspResult.textContent = '—'; });
 
-// ===== REACTION TIMER =====
-const pad=$('#rt-pad'), last=$('#rt-last'), best=$('#rt-best');
-let state='idle',timeout,start,bestVal=localStorage.getItem('jenbi.rt.best')||'–';
-best.textContent=bestVal;
-function setPad(c,t,bg){pad.textContent=t;pad.style.background=bg;}
-function arm(){state='ready';setPad('','Warte …','#ef4444');timeout=setTimeout(()=>{state='go';start=performance.now();setPad('','JETZT!','#22c55e');},1000+Math.random()*2000);}
-pad.addEventListener('click',()=>{
- if(state==='idle'){arm();}
- else if(state==='ready'){clearTimeout(timeout);setPad('','Zu früh!','#f87171');state='idle';}
- else if(state==='go'){const t=Math.round(performance.now()-start);last.textContent=t;setPad('','Klick zum Starten …','#94a3b8');state='idle';
- if(best.textContent==='–'||t<best.textContent){best.textContent=t;localStorage.setItem('jenbi.rt.best',t);}
- }
-});
+    /* ===== Reaction Timer ===== */
+    const rtPad = $('#rt-pad'), rtLast = $('#rt-last'), rtBest = $('#rt-best'), rtReset = $('#rt-reset');
+    const rtKey = 'jenbi.rt.best';
+    let rtTimeout = null, rtStartTime = 0, rtState = 'idle'; // idle | ready | go
+    const savedRT = Number(localStorage.getItem(rtKey)); if (!Number.isNaN(savedRT) && savedRT>0) rtBest.textContent = savedRT;
+    function setPad(state, text){
+      rtPad.className = `rt-pad ${state}`;
+      rtPad.textContent = text;
+    }
+    function armReaction(){
+      rtState = 'ready'; setPad('rt-ready','Warte …');
+      const delay = 700 + Math.random()*2300;
+      rtTimeout = setTimeout(()=>{ rtState = 'go'; rtStartTime = performance.now(); setPad('rt-go','JETZT!'); }, delay);
+    }
+    rtPad?.addEventListener('click', () => {
+      if (rtState === 'idle') {
+        armReaction();
+      } else if (rtState === 'ready') {
+        clearTimeout(rtTimeout); rtState = 'idle'; setPad('rt-wait','Zu früh! Klick zum Neustart …');
+      } else if (rtState === 'go') {
+        const t = Math.round(performance.now() - rtStartTime);
+        rtLast.textContent = t;
+        setPad('rt-wait','Klick zum Starten …'); rtState = 'idle';
+        const best = Number(rtBest.textContent) || Infinity;
+        if (t < best) { rtBest.textContent = t; localStorage.setItem(rtKey, String(t)); }
+      }
+    });
+    rtReset?.addEventListener('click', () => { localStorage.removeItem(rtKey); rtBest.textContent = '–'; });
 
-// ===== SNAKE =====
-(()=>{const cvs=$('#snakeCanvas'),ctx=cvs.getContext('2d'),ov=$('#snakeOverlay');
-const CELL=16,COLS=25,ROWS=25,TICK=110;
-let snake,dir,next,food,score=0,running=false,paused=true,dead=false,acc=0,lastTs;
-function rnd(){return{x:Math.floor(Math.random()*COLS),y:Math.floor(Math.random()*ROWS)}}
-function spawn(){let f;do{f=rnd()}while(snake.some(s=>s.x===f.x&&s.y===f.y));food=f;}
-function overlay(txt,show){ov.textContent=txt;ov.classList.toggle('show',show);}
-function reset(){snake=[{x:12,y:12}];dir={x:1,y:0};next=dir;spawn();running=false;paused=true;dead=false;overlay('Klicke zum Starten',true);}
-function draw(){ctx.fillStyle='#0b1220';ctx.fillRect(0,0,400,400);
-ctx.fillStyle='#ef4444';ctx.fillRect(food.x*CELL,food.y*CELL,CELL,CELL);
-ctx.fillStyle='#22c55e';snake.forEach(s=>ctx.fillRect(s.x*CELL,s.y*CELL,CELL,CELL));}
-function step(){dir=next;const h={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
-if(h.x<0||h.y<0||h.x>=COLS||h.y>=ROWS||snake.some(s=>s.x===h.x&&s.y===h.y))return gameOver();
-snake.unshift(h);if(h.x===food.x&&h.y===food.y){score++;spawn();}else snake.pop();}
-function loop(ts){if(!running||paused)return;if(!lastTs)lastTs=ts;const d=ts-lastTs;lastTs=ts;acc+=d;while(acc>=TICK){step();acc-=TICK;}draw();requestAnimationFrame(loop);}
-function gameOver(){running=false;dead=true;overlay('Game Over – Klicke zum Starten',true);}
-function start(){if(running)return;running=true;paused=false;dead=false;overlay('',false);requestAnimationFrame(loop);}
-window.addEventListener('keydown',e=>{
-const k=e.key.toLowerCase();
-if(k==='w'||k==='arrowup')next={x:0,y:-1};
-else if(k==='s'||k==='arrowdown')next={x:0,y:1};
-else if(k==='a'||k==='arrowleft')next={x:-1,y:0};
-else if(k==='d'||k==='arrowright')next={x:1,y:0};
-else if(k==='p')paused=!paused;
-else if(k==='r')reset();
-});
-ov.addEventListener('click',()=>{if(dead){reset();start();}else if(!running){start();}});
-reset();})();
+    /* ===== Snake – stabil (Pause korrekt, kein „Nachholen“) ===== */
+    (() => {
+      const cvs = $('#snakeCanvas'); if (!cvs) return;
+      const ctx = cvs.getContext('2d');
+      const overlay = $('#snakeOverlay');
+      const btnStart = $('#snake-start');
+      const btnPause = $('#snake-pause');
+      const btnReset = $('#snake-reset');
+      const scoreEl = $('#snake-score');
+      const bestEl  = $('#snake-best');
 
-// ===== JOEL EASTER EGG =====
-let joelClicks=0;
-$('#joel').addEventListener('click',()=>{
- joelClicks++;
- if(joelClicks>=10){
-   $('#joel-img').style.display='block';
-   setTimeout(()=>$('#joel-img').style.display='none',3000);
-   joelClicks=0;
- }
-});
+      const CELL = 16;
+      const COLS = Math.floor(cvs.width / CELL);
+      const ROWS = Math.floor(cvs.height / CELL);
+      const TICK_MS = 110;
 
-// ===== FOOTER YEAR =====
-$('#year').textContent=new Date().getFullYear();
-</script>
+      const bestKey = 'jenbi.snake.best';
+      let best = Number(localStorage.getItem(bestKey)) || 0; bestEl.textContent = best;
+
+      let snake, dir, nextDir, food, score;
+      let running = false, paused = true, dead = false;
+      let acc = 0, lastTs;
+
+      function rndCell(){ return { x: Math.floor(Math.random()*COLS), y: Math.floor(Math.random()*ROWS) }; }
+      function spawnFood(){
+        let f; do { f = rndCell(); } while (snake.some(s => s.x===f.x && s.y===f.y));
+        food = f;
+      }
+      function setOverlay(text, show){
+        overlay.textContent = text;
+        overlay.classList.toggle('show', !!show);
+      }
+      function reset(){
+        snake = [{x: Math.floor(COLS/2), y: Math.floor(ROWS/2)}];
+        dir = {x:1,y:0}; nextDir = dir; score = 0; scoreEl.textContent = '0';
+        acc = 0; lastTs = undefined; spawnFood();
+        running = false; paused = true; dead = false;
+        btnPause.disabled = true; btnPause.textContent = '⏸️ Pause';
+        setOverlay('Klicke zum Starten', true);
+        draw();
+      }
+      function start(){
+        running = true; paused = false; dead = false;
+        btnPause.disabled = false; setOverlay('', false);
+        lastTs = undefined; requestAnimationFrame(loop);
+      }
+      function togglePause(){
+        if (!running || dead) return;
+        paused = !paused;
+        if (paused) { setOverlay('Pause', true); btnPause.textContent = '▶️ Weiter'; }
+        else { setOverlay('', false); btnPause.textContent = '⏸️ Pause'; lastTs = undefined; requestAnimationFrame(loop); }
+      }
+      function gameOver(){
+        running = false; dead = true; paused = false;
+        setOverlay('Game Over – Klicke zum Starten', true);
+        btnPause.disabled = true; btnPause.textContent = '⏸️ Pause';
+        // kleiner Shake
+        cvs.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:250});
+      }
+      function draw(){
+        // Hintergrund
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--surface')?.trim() || '#0f172a';
+        ctx.fillRect(0,0,cvs.width,cvs.height);
+        // dezentes Grid
+        ctx.globalAlpha = 0.08; ctx.fillStyle = '#000';
+        for (let x=0;x<COLS;x++) ctx.fillRect(x*CELL,0,1,cvs.height);
+        for (let y=0;y<ROWS;y++) ctx.fillRect(0,y*CELL,cvs.width,1);
+        ctx.globalAlpha = 1;
+        // Food
+        ctx.fillStyle = '#ef4444'; ctx.fillRect(food.x*CELL, food.y*CELL, CELL, CELL);
+        // Snake
+        ctx.fillStyle = '#22c55e'; snake.forEach(s => ctx.fillRect(s.x*CELL, s.y*CELL, CELL, CELL));
+      }
+      function step(){
+        dir = nextDir;
+        const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+        // Wände/Körper
+        if (head.x<0 || head.x>=COLS || head.y<0 || head.y>=ROWS) return gameOver();
+        if (snake.some(s => s.x===head.x && s.y===head.y)) return gameOver();
+        snake.unshift(head);
+        if (head.x===food.x && head.y===food.y){
+          score++; scoreEl.textContent = String(score);
+          if (score>best){ best=score; bestEl.textContent=best; localStorage.setItem(bestKey, String(best)); }
+          spawnFood();
+        } else {
+          snake.pop();
+        }
+      }
+      function loop(ts){
+        if (!running || paused || dead) return;
+        if (lastTs===undefined) lastTs = ts;
+        const delta = ts - lastTs; lastTs = ts; acc += delta;
+        while (acc >= TICK_MS){ step(); acc -= TICK_MS; }
+        draw();
+        requestAnimationFrame(loop);
+      }
+      function setDir(nx, ny){
+        const opposite = (dir.x === -nx && dir.y === -ny);
+        if (opposite) return;
+        if (nextDir !== dir) return;
+        nextDir = {x:nx, y:ny};
+      }
+
+      // Input
+      window.addEventListener('keydown', (e) => {
+        const k = e.key.toLowerCase();
+        if (['arrowup','arrowdown','arrowleft','arrowright',' '].includes(k)) e.preventDefault?.();
+        if (k==='w' || k==='arrowup')         setDir(0,-1);
+        else if (k==='s' || k==='arrowdown')  setDir(0, 1);
+        else if (k==='a' || k==='arrowleft')  setDir(-1,0);
+        else if (k==='d' || k==='arrowright') setDir(1, 0);
+        else if (k==='p') togglePause();
+        else if (k==='r') reset();
+      });
+
+      // Buttons & Overlay
+      btnStart?.addEventListener('click', () => { if (dead) { reset(); } start(); });
+      btnPause?.addEventListener('click', togglePause);
+      btnReset?.addEventListener('click', reset);
+      overlay?.addEventListener('click', () => {
+        if (dead) { reset(); start(); }
+        else if (!running) { start(); }
+        else if (paused) { togglePause(); }
+      });
+
+      reset();
+    })();
+
+    /* ===== Konami ===== */
+    (()=>{
+      const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+      let buffer = [];
+      window.addEventListener('keydown', (e)=>{
+        const key = e.key.length===1 ? e.key.toLowerCase() : e.key;
+        buffer.push(key);
+        if (buffer.length > KONAMI.length) buffer.shift();
+        const match = KONAMI.every((k, i) => buffer[i] === k);
+        if (match) { buffer = []; window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank'); alert('Never gonna give you up 🎶'); }
+      });
+    })();
+
+    /* ===== Joel Easter Egg (10x klicken) ===== */
+    (()=>{
+      const joel = $('#joel');
+      const joelImg = $('#joel-img');
+      let clicks = 0;
+      joel?.addEventListener('click', () => {
+        clicks++;
+        if (clicks >= 10) {
+          joelImg.classList.add('show');
+          setTimeout(() => joelImg.classList.remove('show'), 3000);
+          clicks = 0;
+        }
+      });
+    })();
+
+    /* Footer Jahr */
+    $('#year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
