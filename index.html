@@ -21,6 +21,11 @@
       --bg:#f6f7fb; --surface:#ffffff; --text:#0f172a; --muted:#475569;
       --primary:#2a6cf4; --primary-contrast:#ffffff; --shadow:0 10px 30px rgba(2,8,23,.08);
     }
+    /* sorgt dafür, dass native Form-Controls (Select, Inputs, etc.) im richtigen Theme gerendert werden */
+    :root { color-scheme: light dark; }
+    html[data-theme="light"] { color-scheme: light; }
+    html[data-theme="dark"]  { color-scheme: dark;  }
+    }
     html[data-theme="dark"]{
       --bg:#0b1220; --surface:#0f172a; --text:#e5e7eb; --muted:#94a3b8;
       --primary:#60a5fa; --primary-contrast:#0b1220; --shadow:0 12px 40px rgba(0,0,0,.45);
@@ -96,6 +101,26 @@
     .settings-panel.show{display:block}
     .settings-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0}
     .select{width:140px;padding:8px;border-radius:10px;border:1px solid rgba(148,163,184,.35);background:transparent;color:var(--text)}
+    }
+    /* Aussehen der Selects selbst */
+.select{
+  background: var(--surface);
+  color: var(--text);
+  appearance: none;
+}
+
+/* Popup-Einträge einfärben (Chromium/Firefox) */
+.select option{
+  background: var(--surface);
+  color: var(--text);
+}
+
+/* Optional: hover/selected im Popup etwas absetzen */
+.select option:checked,
+.select option:hover{
+  background: rgba(148,163,184,.15);
+}
+
     /* -- hübscher Gear-Button -- */
 .btn-ghost{
   background: transparent;
@@ -156,7 +181,7 @@
             <button id="closeSettings" class="btn" style="width:100%" data-i18n="close">Schließen</button>
           </div>
         </div>
-        <span class="version">v3.0.0_pre8</span>
+        <span class="version">v3.0.0_pre9</span>
       </div>
     </header>
 
@@ -607,4 +632,5 @@
   </script>
 </body>
 </html>
+
 
