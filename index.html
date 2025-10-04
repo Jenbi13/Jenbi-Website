@@ -103,8 +103,18 @@
       <div id="panel-ueber" class="tabpanel" role="tabpanel" aria-labelledby="tab-ueber" aria-hidden="false">
         <h2>Über mich</h2>
         <p>Servas! Ich bin <strong>Jenbi</strong> – willkommen auf meiner kleinen, aber feinen Seite. Hier find’sd Mini-Games, Links und a bissl was über mich. 😎</p>
-        <p>Ich komm’ aus dem schönen <strong>Niederösterreich</strong> und mach (wenn ich brav bin 😉) Videos zu <em>Roblox</em>, <em>Minecraft</em> und <em>Nintendo</em>.</p>
-        <p>Homies: <strong>Fabian</strong> (IRL), <strong>Joel</strong> (Brawl Stars-Discord), <strong>zLequit</strong> (seit Jahren; über RunningStarJonas; geiler YTer – <em>auch abonnieren auf süß!</em>)</p>
+        <p>Ich komm’ aus dem schönen <strong>Niederösterreich</strong> und mach (wenn ich brav bin 😉) Videos zu <em>Roblox</em>, <em>Minecraft</em> und <em>Nintendo</em>.
+          <p>
+  Homies: 
+  <strong>Fabian</strong> (IRL)
+  <strong id="joel">Joel</strong> (Brawl Stars-Discord),
+  <strong>zLequit</strong> (kenn ich seit Jahren - <em>abonnieren auf süß!</em>)
+</p>
+
+<!-- 👇 Joel Easter Egg Bild -->
+<img id="joel-img" src="Joel_Bild.png" alt="Joel" 
+     style="display:none;max-width:200px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.4);margin-top:10px">
+
       </div>
 
       <div id="panel-games" class="tabpanel" role="tabpanel" aria-labelledby="tab-games" aria-hidden="true">
@@ -452,26 +462,26 @@
     const quizBox = $('#quiz-box'), quizStart = $('#quiz-start'), quizScoreEl = $('#quiz-score'), quizBestEl = $('#quiz-best');
     const quizKey = 'jenbi.quiz.best'; let quizScore=0, quizIdx=0;
     const QUESTIONS = [
-      { q: 'In welchem Jahr fiel die Berliner Mauer?', a: ['1987','1989','1991','1993'], correct: 1 },
-      { q: 'Wer gilt als Erfinder des Buchdrucks in Europa?', a: ['Leonardo da Vinci','Johannes Gutenberg','Isaac Newton','Martin Luther'], correct: 1 },
-      { q: 'Wann war der Zweite Weltkrieg?', a: ['1914–1918','1939–1945','1950–1953','1961–1975'], correct: 1 },
-      { q: 'Amtssprache des Römischen Reiches?', a: ['Griechisch','Latein','Aramäisch','Gotisch'], correct: 1 },
-      { q: 'Erster Mensch auf dem Mond (1969)?', a: ['Buzz Aldrin','Yuri Gagarin','Neil Armstrong','Michael Collins'], correct: 2 },
-      { q: 'Vollversion (Java 1.0) Release-Jahr?', a: ['2009','2010','2011','2012'], correct: 2 },
-      { q: 'Was droppen Creeper standardmäßig?', a: ['Knochen','Schwarzpulver','Fäden','Schleimball'], correct: 1 },
-      { q: 'Min. Obsidian für Netherportal?', a: ['8','10','12','14'], correct: 1 },
-      { q: 'Berufsstation vom Geistlichen (Cleric)?', a: ['Schmiedetisch','Braustand','Webstuhl','Komposter'], correct: 1 },
-      { q: 'Max Stack von Enderperlen?', a: ['16','32','64','8'], correct: 0 },
-      { q: 'Hauptstadt von Australien?', a: ['Sydney','Melbourne','Canberra','Perth'], correct: 2 },
-      { q: 'Flächenmäßig größtes Land?', a: ['Kanada','Russland','China','USA'], correct: 1 },
-      { q: 'Kleinstes Land der Welt?', a: ['Monaco','San Marino','Vatikanstadt','Liechtenstein'], correct: 2 },
-      { q: 'Kontinent mit den meisten Staaten?', a: ['Europa','Afrika','Asien','Südamerika'], correct: 1 },
-      { q: 'Hauptstadt von Kanada?', a: ['Toronto','Vancouver','Ottawa','Montreal'], correct: 2 },
-      { q: 'Release-Jahr von Super Mario Odyssey?', a: ['2015','2016','2017','2018'], correct: 2 },
-      { q: 'Name des Hut-Begleiters in Odyssey?', a: ['Toad','Cappy','Luma','Pauline'], correct: 1 },
-      { q: 'Haupt-Sammelobjekte in Odyssey?', a: ['Power-Sterne','Power-Monde','Shines','Wundersaaten'], correct: 1 },
-      { q: 'Frühes T-Rex-Königreich?', a: ['Wooded','Sand','Cascade','Metro'], correct: 2 },
-      { q: 'Zusatzwährung pro Königreich?', a: ['Violette Regionalmünzen','Rote Sterne','Blaue Rubine','Silberne Ringe'], correct: 0 },
+      { q: 'In welchem Jahr fiel die Berliner Mauer? (Geschichte)', a: ['1987','1989','1991','1993'], correct: 1 },
+      { q: 'Wer gilt als Erfinder des Buchdrucks in Europa? (Geschichte)', a: ['Leonardo da Vinci','Johannes Gutenberg','Isaac Newton','Martin Luther'], correct: 1 },
+      { q: 'Wann war der Zweite Weltkrieg? (Geschichte)', a: ['1914–1918','1939–1945','1950–1953','1961–1975'], correct: 1 },
+      { q: 'Amtssprache des Römischen Reiches? (Geschichte)', a: ['Griechisch','Latein','Aramäisch','Gotisch'], correct: 1 },
+      { q: 'Erster Mensch auf dem Mond (1969)? (Geschichte)', a: ['Buzz Aldrin','Yuri Gagarin','Neil Armstrong','Michael Collins'], correct: 2 },
+      { q: 'Wann ist die Minecraft-Vollversion (1.0) released? (Minecraft)', a: ['2009','2010','2011','2012'], correct: 2 },
+      { q: 'Was droppen Creeper? (Minecraft)', a: ['Knochen','Schwarzpulver','Fäden','Schleimball'], correct: 1 },
+      { q: 'Min. Obsidian für Netherportal? (Minecraft)', a: ['8','10','12','14'], correct: 1 },
+      { q: 'Berufsstation vom Geistlichen (Cleric)? (Minecraft)', a: ['Schmiedetisch','Braustand','Webstuhl','Komposter'], correct: 1 },
+      { q: 'Max Stack von Enderperlen? (Minecraft)', a: ['16','32','64','8'], correct: 0 },
+      { q: 'Hauptstadt von Australien? (Geographie)', a: ['Sydney','Melbourne','Canberra','Perth'], correct: 2 },
+      { q: 'Flächenmäßig größtes Land? (Geographie)', a: ['Kanada','Russland','China','USA'], correct: 1 },
+      { q: 'Kleinstes Land der Welt? (Geographie)', a: ['Monaco','San Marino','Vatikanstadt','Liechtenstein'], correct: 2 },
+      { q: 'Kontinent mit den meisten Staaten? (Geographie)', a: ['Europa','Afrika','Asien','Südamerika'], correct: 1 },
+      { q: 'Hauptstadt von Kanada?' (Geographie), a: ['Toronto','Vancouver','Ottawa','Montreal'], correct: 2 },
+      { q: 'Release-Jahr von Super Mario Odyssey? (Super Mario Odyssey)', a: ['2015','2016','2017','2018'], correct: 2 },
+      { q: 'Name des Hut-Begleiters in Odyssey? (Super Mario Odyssey)', a: ['Toad','Cappy','Luma','Pauline'], correct: 1 },
+      { q: 'Haupt-Sammelobjekte in Odyssey?' (Super Mario Odyssey), a: ['Power-Sterne','Power-Monde','Shines','Wundersaaten'], correct: 1 },
+      { q: 'In welchem Kingdom trifft man als erstes auf den T-Rex?' (Super Mario Odyssey), a: ['Wooded','Sand','Cascade','Metro'], correct: 2 },
+      { q: 'Zusatzwährung pro Königreich?' (Super Mario Odyssey), a: ['Lila Münzen','Rote Sterne','Blaue Rubine','Silberne Ringe'], correct: 0 },
     ];
     function pickRandom(arr, n){ const copy = arr.slice(); for (let i = copy.length - 1; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [copy[i], copy[j]] = [copy[j], copy[i]]; } return copy.slice(0,n); }
     let QUIZ = [];
@@ -512,6 +522,21 @@
 
     // Footer year
     $('#year').textContent = new Date().getFullYear();
+
+    // ===== Joel Easter Egg =====
+const joel = document.getElementById('joel');
+const joelImg = document.getElementById('joel-img');
+let joelClicks = 0;
+
+joel?.addEventListener('click', () => {
+  joelClicks++;
+  if (joelClicks >= 10) {
+    joelImg.style.display = 'block';
+    setTimeout(() => joelImg.style.display = 'none', 3000);
+    joelClicks = 0;
+  }
+});
   </script>
 </body>
 </html>
+
